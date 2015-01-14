@@ -186,7 +186,7 @@
     [self createAndLoadInterstitial];
 }*/
 
-//BAKBAKADJSHDJSAHDJASHDH
+//BAKBAKADJSHDJSAHDJASHDHdsajidsaiajs
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"Får tillbaka en add..");
     if ([ad isReady]){
