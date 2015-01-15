@@ -22,6 +22,10 @@
 - (void)viewDidLoad {
     NSLog(@"view did load...");
     
+    
+    [self controlCurrentUserInstall];
+    [self controlCurrentUser];
+    
     self.searchResultTableView.hidden = YES;
     self.searchBar.hidden = YES;
     
@@ -305,16 +309,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-    //NSString *name = [self.searchResults objectAtIndex:indexPath.row];
-    UIAlertView *messageAlert = [[UIAlertView alloc]
-                                 initWithTitle:@"Row Selected" message:@"hihf" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    // Display Alert Message
-    [messageAlert show];
-    */
-    
-    
     
     if (tableView == _informationTableView) {
         if (indexPath.section == 0) {
@@ -476,8 +470,44 @@
     debt[@"toName"] = self.sendToPerson.name;
     debt[@"toFbId"] = self.sendToPerson.fbId;
     
+    //send a push to the user
+    
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *message = [NSString stringWithFormat:@"Du har en ny skuld från %@ på %@ kr", currentUser[@"fbName"], amount.text];
+
+    [PFCloud callFunctionInBackground:@"sendPushToUser"
+                       withParameters:@{@"recipientId": self.sendToPerson.fbId, @"message": message}
+                                block:^(NSString *success, NSError *error) {
+                                    if (!error) {
+                                        // Push sent successfully
+                                        NSLog(@"Lyckades skicka push från client till server");
+                                    }else{
+                                        NSLog(@"Lyckades INTE skicka push från client till server");
+                                    }
+                                }];
+    
+    /*
+    PFQuery *pushQuery = [PFInstallation query];
+    [pushQuery whereKey:@"fbId" equalTo:self.sendToPerson.fbId];
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *message = [NSString stringWithFormat:@"Du har en ny skuld från %@ på %@ kr", currentUser[@"fbName"], amount.text];
+    
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          message, @"alert",
+                          @"Increment", @"badge",
+                          @"default", @"sound",
+                          nil];
+    
+    PFPush *push = [[PFPush alloc] init];
+    [push setQuery:pushQuery]; // Set our Installation query
+    //[push setMessage:message];
+    [push setData:data];
+    [push sendPushInBackground];
+    */
+    
     //Save the object in the database
     [debt saveEventually];
+    self.sendToPerson = nil;
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -532,7 +562,6 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    NSLog(@"HELLOHELLOHELLOHELLO");
     //NSLog(@"börjar editera.....");
     _activeKeyboard = textField;
     /*if ([_activeKeyboard tag] == 2) {
@@ -576,6 +605,28 @@
         UIAlertView *confirm = [[UIAlertView alloc]
                                 initWithTitle:@"Bekräfta skulden" message:mess delegate:self cancelButtonTitle:@"Nej" otherButtonTitles:@"Ja",nil];
         [confirm show];
+    }
+}
+
+#pragma mark control functions
+
+-(void) controlCurrentUser {
+    if (!([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"])) {
+        [PFUser logOut];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        NSLog(@"Någonting hände...Loggar ut användaren..");
+    }
+}
+
+-(void) controlCurrentUserInstall {
+    
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    
+    if (currentInstallation[@"fbId"] != [[PFUser currentUser] objectForKey:@"fbId"]) {
+        [PFUser logOut];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 

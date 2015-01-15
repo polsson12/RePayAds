@@ -26,6 +26,20 @@
 @synthesize debts = _debts;
 
 - (void)viewDidLoad {
+    
+    
+   /* NSDictionary *data = @{
+                           @"alert": @"James commented on your photo!",
+
+                           };*/
+    /*
+    PFQuery *pushQuery = [PFInstallation query];
+    [pushQuery whereKey:@"deviceType" equalTo:@"ios"];
+    
+    
+    // Send push notification to query
+    [PFPush sendPushMessageToQueryInBackground:pushQuery
+                                   withMessage:@"Hello World!"];*/
     selectedRow = -1;
     NSLog(@"Inne i Debt Details View Controller");
     if (_debts == nil) {

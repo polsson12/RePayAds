@@ -28,15 +28,6 @@
 @synthesize user = _user;
 
 
-/*- (void) viewDidAppear:(BOOL)animated {
-    if (showAd) {
-        if ([self.interstitial isReady]){
-            [self.interstitial presentFromRootViewController:self];
-        }else {
-            NSLog(@"Ska inte komma hit..");
-        }
-    }
-}*/
 
 
 - (void)viewDidLoad {
@@ -52,15 +43,13 @@
         [self.navigationController popViewControllerAnimated:YES];
         showAd = NO;
     }
+    
+    //Button graphics
     _CreateDebt.layer.cornerRadius = 6;
     _CreateDebt.layer.shadowOpacity = 0.3;
 
-    //_CreateDebt.layer.borderWidth = 1;
     _ShowDebt.layer.cornerRadius = 6;
     _ShowDebt.layer.shadowOpacity = 0.3;
-    //_ShowDebt.layer.borderWidth = 1;
-    //_CreateDebt.layer.borderColor = [UIColor blueColor].CGColor;
-    //[[UIBarButtonItem alloc] initWithTitle:@"Logga ut" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     //Set the label to display the number of unconfirmed depts
     _numOfNewDetps.layer.masksToBounds = YES;
@@ -75,23 +64,14 @@
     
     
     
+    [self controlCurrentUser];
+    [self controlCurrentUserInstall];
     
     
-    /*if ([PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        NSLog(@"Är länkad med facebook");
-    }
-    else {
-        NSLog(@"ÄR inte länkad med facebook");
-    }*/
-    
-    
-    
-    //TODO: IMPORTANT!!!!!!! What if PFUser is NULL?
-    NSLog(@"ska sätta back item title...");
     NSLog(@"3current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
     
     PFQuery *unconfirmedDepts = [PFQuery queryWithClassName:@"Debts"];
-   [unconfirmedDepts whereKey:@"toFbId" equalTo:[[PFUser currentUser] objectForKey:@"fbId"]];
+    [unconfirmedDepts whereKey:@"toFbId" equalTo:[[PFUser currentUser] objectForKey:@"fbId"]];
 
     [unconfirmedDepts whereKey:@"approved" equalTo:@NO];
     
@@ -130,17 +110,6 @@
 }
 
 
-- (IBAction)CreateDebtButton:(id)sender {
-    
-    NSLog(@"Skapa skuld...");
-    
-    
-}
-
-- (IBAction)ShowDebtButton:(id)sender {
-    NSLog(@"Visa skulder...");
-}
-
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
     if (!parent) {
@@ -151,6 +120,14 @@
         }
     }
     // parent is nil if this view controller was removed
+}
+
+#pragma mark buttons functions
+- (IBAction)CreateDebtButton:(id)sender {
+    
+}
+
+- (IBAction)ShowDebtButton:(id)sender {
 }
 
 - (IBAction)infoButton:(id)sender {
@@ -165,7 +142,7 @@
     }
 }
 
-#pragma mark adds functions
+#pragma mark ads functions
 
 - (void) createAndLoadInterstitial {
 //- (GADInterstitial *)createAndLoadInterstitial {
@@ -181,19 +158,37 @@
     //return interstitial;
 }
 
-/*- (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
-    //self.interstitial = [self createAndLoadInterstitial];
-    [self createAndLoadInterstitial];
-}*/
 
-//BAKBAKADJSHDJSAHDJASHDHdsajidsaiajs
+
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"Får tillbaka en add..");
     if ([ad isReady]){
         [ad presentFromRootViewController:self.navigationController.topViewController];
-
     }
 }
+
+#pragma mark control functions
+
+-(void) controlCurrentUser {
+    if (!([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"])) {
+        [PFUser logOut];
+        _user = [PFUser currentUser];
+        [self.navigationController popViewControllerAnimated:YES];
+        NSLog(@"Någonting hände...Loggar ut användaren..");
+    }
+}
+
+-(void) controlCurrentUserInstall {
+    
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    
+    if (currentInstallation[@"fbId"] != [[PFUser currentUser] objectForKey:@"fbId"]) {
+        currentInstallation[@"fbId"] = [[PFUser currentUser] objectForKey:@"fbId"];
+        [currentInstallation saveEventually];
+    }
+}
+
 
 
 

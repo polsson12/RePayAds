@@ -29,7 +29,7 @@
     if ([PFUser currentUser] && // Check if user is cached
         [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) { // Check if user is linked to Facebook
         //[self pushFirstViewController];
-        if ([[PFUser currentUser] objectForKey:@"fbId"] && [[PFUser currentUser] objectForKey:@"fbName"]) {
+        if ([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"]) {
             [self performSegueWithIdentifier:@"toFirstView" sender:self];
         }else{
             [PFUser logOut];
@@ -70,16 +70,17 @@
         //[_activityIndicator stopAnimating]; // Hide loading indicator
         
         //TODO: Use some kind of loading indicator..
+        //TODO: Fix those error messages
         if (!user) {
             NSString *errorMessage = nil;
             if (!error) {
                 NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                errorMessage = @"Uh oh. The user cancelled the Facebook login.";
+                errorMessage = @"Avbruten inloggning.";
             } else {
                 NSLog(@"Uh oh. An error occurred: %@", error);
                 errorMessage = [error localizedDescription];
             }
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fel vid inloggningen"
                                                             message:errorMessage
                                                            delegate:nil
                                                   cancelButtonTitle:nil
@@ -91,12 +92,23 @@
 
                 [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                     if (!error) {
-                        // Store the current user's Facebook ID on the user
-                        //[[PFUser currentUser] setObject:[result objectForKey:@"id"] forKey:@"fbId"];
-                        //[[PFUser currentUser] setObject:[result objectForKey:@"name"] forKey:@"fbName"];
                         PFUser *user = [PFUser currentUser];
                         user[@"fbId"] = [result objectForKey:@"id"];
                         user[@"fbName"] = [result objectForKey:@"name"];
+                        
+                        
+                        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                        currentInstallation[@"fbId"] = [result objectForKey:@"id"];
+                        
+                        [currentInstallation saveEventually:^(BOOL succeeded, NSError *error) {
+                            if(succeeded){
+                                NSLog(@"Lyckades spara facebookId i current install new user");
+                            }else{
+                                NSLog(@"Lyckades INTE spara facebookId i current install new user");
+                            }
+                        }];
+                        
+                        
                        NSLog(@"1current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
                        // NSLog(@"1current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
                         //[[PFUser currentUser] saveInBackground];
@@ -117,25 +129,27 @@
                 }];
                 
             } else {
-                [self performSegueWithIdentifier:@"toFirstView" sender:self];
-                NSLog(@"User with facebook logged in!");
-                NSLog(@"2current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
-
+                
+                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                currentInstallation[@"fbId"] = [[PFUser currentUser] objectForKey:@"fbId"];
+                
+                [currentInstallation saveEventually:^(BOOL succeeded, NSError *error) {
+                    if(succeeded){
+                        NSLog(@"Lyckades spara facebookId i current install new user");
+                        NSLog(@"User with facebook logged in!");
+                        NSLog(@"2current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
+                        [self performSegueWithIdentifier:@"toFirstView" sender:self];
+                    }else{
+                        NSLog(@"Lyckades INTE spara facebookId i current install new user");
+                    }
+                }];
             }
-            //[self pushFirstViewController];
         }
     }];
     
     //[_activityIndicator startAnimating]; // Show loading indicator until login is finished
 }
 
-/*- (void)pushFirstViewController {
-    //TODO: Make transistion smoother??
-    FirstViewController *firstController = [self.storyboard instantiateViewControllerWithIdentifier:@"FirstViewController"];
-    
-    [self.navigationController pushViewController:firstController animated:YES];
-    
-}*/
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"toFirstView"]) {
@@ -143,10 +157,6 @@
     }
 }
 
-/*- (void)addUserToDatabase{
-    
-    
-}*/
 
 
 @end

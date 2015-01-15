@@ -23,12 +23,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //Connecnt to parse and do some setup
     [Parse setApplicationId:@"nRB3Zvb83EVkAVNAxYb47hzBrUz5jhEsIv47r2nE"
                   clientKey:@"Q7tdy94N3Bt6Z9m3GHJsN6ZXi5yAenvdDbmZUYWb"];
     
     
     [PFFacebookUtils initializeFacebook];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    
+    //Enable push notifications
+    NSLog(@"didFinishLaunchingWithOptions");
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                    UIUserNotificationTypeBadge |
+                                                    UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                             categories:nil];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
+    
     return YES;
 }
 
@@ -52,6 +66,13 @@
     // Logs 'install' and 'app activate' App Events.
     
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+    
+    //Clearing the badge
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
 
     
 }
@@ -61,15 +82,6 @@
     [[PFFacebookUtils session] close];
 
 }
-/*
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    // attempt to extract a token from the url
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-}
- */
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
@@ -79,6 +91,34 @@
                   sourceApplication:sourceApplication
                         withSession:[PFFacebookUtils session]];
 }
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken");
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[ @"global" ];
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+
+    NSLog(@"Fail to register: %@ ", [error localizedDescription]);
+
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"Tar emot notifikation");
+    //clearing the badge when the app is active and the user receives an notification
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
+    [PFPush handlePush:userInfo];
+}
+
+
 
 
 @end

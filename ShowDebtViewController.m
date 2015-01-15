@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    [self controlCurrentUser];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -112,28 +113,8 @@
             else{
                 numOfunApproved.text =  [NSString stringWithFormat: @"%ld", (long)numNonApp];
             }
-            }
+        }
         
-        
-        
-        
-        //NSNumber* amount = @(0);
-        
-        /*for (int i = 0; i < [[_debtsToPerson objectAtIndex:indexPath.row] count]; i++) {
-            for (int j = 0; j < [[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:i] count]; j++) {
-                //NSLog([[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:i] objectAtIndex:j] approved] ? @"Yes" : @"No");
-                amount = [NSNumber numberWithFloat:([[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:i] objectAtIndex:j] amount] floatValue]  + [amount floatValue])];
-                NSLog(@"AMOUNT: %@", amount);
-                if(![[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:i] objectAtIndex:j] approved]){
-                    //app = NO;
-                    //break;
-                }
-            }
-            if (!app) {
-                NSLog(@"breakar.........");
-                break;
-            }
-        }*/
         if (app) {
             cell.textLabel.textColor  = [UIColor colorWithRed:11.0/255.0 green:96.0/255.0 blue:254.0/255.0 alpha:1];
             amountLabel.textColor = [UIColor colorWithRed:11.0/255.0 green:96.0/255.0 blue:254.0/255.0 alpha:1];
@@ -154,15 +135,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self performSegueWithIdentifier:@"toDebtDeatilsViewController" sender:[_debtsToPerson objectAtIndex:indexPath.row ]];
 }
-
-/*- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //[_objects removeObjectAtIndex:indexPath.row];
-        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else {
-        NSLog(@"Unhandled editing style! %ld", editingStyle);
-    }
-}*/
 
 
 /*
@@ -216,8 +188,6 @@
                 }
               
             }
-            //NSLog(@"_uniqueFbIds har nu storleken: %lu ", (unsigned long)[_uniqueFbIds count]);
-            //NSLog(@"_depts har nu storleken: %lu ", (unsigned long)[_debts count]);
             if ([_uniqueFbIds count] > 0) { // We have depts.. Do the processing for them and show tableview..
                 self.showDeptsTableView.hidden = NO;
                 [self sortDepts];
@@ -276,24 +246,6 @@
         }
         
         [_debtsToPerson addObject:arr];
-
-        /*
-        
-        NSLog(@"Storlekten på _debtsToPerson: %lu", (unsigned long)[_debtsToPerson count]);
-    
-        //NSLog(@"Storlek: %@",[[[[_debtsToPerson objectAtIndex:0] objectAtIndex:0] objectAtIndex:0] amount]);
-
-        
-        for (int i = 0; i < [_debtsToPerson count]; i++) {
-            for (int j = 0; j < [[_debtsToPerson objectAtIndex:i] count]; j++) {
-                for (int k = 0; k < [[[_debtsToPerson objectAtIndex:i] objectAtIndex:j] count]; k++) {
-                    NSLog(@"Skuld: %@",[[[[_debtsToPerson objectAtIndex:i] objectAtIndex:j] objectAtIndex:k] toName]);
-
-                }
-                NSLog(@"------------");
-            }
-        }
-         */
     }
 }
 
@@ -310,6 +262,16 @@
         DebtDetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.debts = sender;
         
+    }
+}
+
+#pragma mark control functions
+
+-(void) controlCurrentUser {
+    if (!([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"])) {
+        [PFUser logOut];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 
