@@ -27,6 +27,13 @@
 
 - (void)viewDidLoad {
     
+    //Set up buttons in the navigation bar
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    [infoButton addTarget:self action:@selector(showInfoView) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    
     
    /* NSDictionary *data = @{
                            @"alert": @"James commented on your photo!",
@@ -153,9 +160,9 @@
                //date.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
                //message.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
                 
-                cell.textLabel.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
-                cell.detailTextLabel.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
-                amount.textColor = [UIColor blackColor];
+                cell.textLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
+                cell.detailTextLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
+                amount.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
             }
             
         }else{
@@ -185,10 +192,8 @@
             }
             else{   //approved debts
                 //cell.backgroundColor = [UIColor yellowColor];
-                //date.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
-                //message.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
-                cell.textLabel.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
-                cell.detailTextLabel.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
+                cell.textLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
+                cell.detailTextLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
@@ -310,7 +315,6 @@
         NSLog(@"Amount %@", [[[_debts objectAtIndex:1] objectAtIndex:i] amount] );
         amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[_debts objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
     }
-    
     _differanceLabel.text = [amount stringValue];
 }
 
@@ -365,6 +369,10 @@
     selectedRow = -1;
 }
 
+-(IBAction)showInfoView {
+    [self performSegueWithIdentifier:@"toInfoDebtDetails" sender:self];
+    
+}
 
 
 

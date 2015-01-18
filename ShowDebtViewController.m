@@ -24,14 +24,19 @@
 
 
 - (void)viewDidLoad {
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    //[button setTitleTextAttributes:
+    //[NSDictionary dictionaryWithObjectsAndKeys:
+    //[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1], NSForegroundColorAttributeName,nil]
+      //                    forState:UIControlStateNormal];
+    
+   // [button setTintColor:[UIColor redColor]];//[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1]];
+    self.navigationItem.backBarButtonItem = button;
     [self controlCurrentUser];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     //Fetch depts..
-    //TODO: Might be buggy if a user is fast enough to click here if one have deleted all the debts in DebtsDetailsViewController
-    //and comes back here...
     self.showDeptsTableView.hidden = YES;
     _activityIndicator.hidden = YES;
     _debts = nil;
@@ -116,8 +121,8 @@
         }
         
         if (app) {
-            cell.textLabel.textColor  = [UIColor colorWithRed:11.0/255.0 green:96.0/255.0 blue:254.0/255.0 alpha:1];
-            amountLabel.textColor = [UIColor colorWithRed:11.0/255.0 green:96.0/255.0 blue:254.0/255.0 alpha:1];
+            cell.textLabel.textColor  = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
+            amountLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
         }else{
             cell.textLabel.textColor  = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
             amountLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];

@@ -20,6 +20,10 @@
 @synthesize friendInfo = _friendInfo;
 @synthesize activityIndicator = _activityIndicator;
 - (void)viewDidLoad {
+    //test
+    
+    
+    
     NSLog(@"view did load...");
     
     
@@ -78,7 +82,9 @@
     
     //If non-valid text is typed
     NSInteger amountInt = [amount.text intValue];
-    if (amountInt == 0) {
+    NSLog(@"Amount är: %d   omgjort: %d", amountInt ,(amountInt+500));
+    if (amountInt <= 0) {
+        NSLog(@"Amount är: %d ", (amountInt+500));
         UIAlertView *mustSetAmount = [[UIAlertView alloc]
                                       initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [mustSetAmount show];
@@ -220,8 +226,11 @@
     //NSLog(@"Inne i cell for row at index path");
     NSString *cellID = @"cellID";
     
-    if (tableView == _informationTableView && indexPath.section == 0 && (indexPath.row == 1 || indexPath.row == 2)) {
+    if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 1) {
         cellID = @"amountCell";
+    }
+    else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 2){
+        cellID = @"messageCell";
     }
     else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 0) {
         cellID = @"nameCell";
@@ -237,17 +246,21 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
-    if (tableView == _informationTableView && indexPath.section == 0 && (indexPath.row == 1 || indexPath.row == 2)) {
-        UITextField *field = (UITextField *)[cell viewWithTag:4];
-        if (indexPath.row == 1) {
-            field.keyboardType = UIKeyboardTypeNumberPad;
-        }
-        
+    if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 1) {
+        UITextField *amountfield = (UITextField *)[cell viewWithTag:4];
+        amountfield.keyboardType = UIKeyboardTypeNumberPad;
         //field.backgroundColor = [UIColor greenColor];
-        field.delegate = self;
-        field.returnKeyType = UIReturnKeyDone;
-        field.font = [UIFont systemFontOfSize:15];
+        amountfield.delegate = self;
+        amountfield.returnKeyType = UIReturnKeyDone;
+        amountfield.font = [UIFont systemFontOfSize:15];
 
+    }
+    else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 2){
+        UITextField *messField = (UITextField *)[cell viewWithTag:3];
+        //field.backgroundColor = [UIColor greenColor];
+        messField.delegate = self;
+        messField.returnKeyType = UIReturnKeyDone;
+        messField.font = [UIFont systemFontOfSize:15];
     }
     else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 0) {
         //UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(120, 7, 240, 30)];
@@ -331,7 +344,7 @@
                 // Get the cells
                 NSArray *cells = [_informationTableView visibleCells];
                 //Get the message text field
-                UITextField *mess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:4];
+                UITextField *mess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:3];
                 [mess becomeFirstResponder];
             }
         }
@@ -345,7 +358,7 @@
                 UILabel *name = (UILabel *)[[cells objectAtIndex:0] viewWithTag:5];
                 NSString * toPerson = @"Vill du skicka till personen: ";
                 NSString * mess = [toPerson stringByAppendingString:name.text];
-                UITextField *debtMess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:4];
+                UITextField *debtMess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:3];
 
                 if ([debtMess.text isEqualToString:@""]) {
                     mess = [mess stringByAppendingString:@", utan något meddelande?"];
@@ -458,13 +471,15 @@
     UITextField *amount = (UITextField *)[[cells objectAtIndex:1] viewWithTag:4];
 
     //Get the message
-    UITextField *mess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:4];
+    UITextField *mess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:3];
     
     //Create a object with the information
     PFObject *debt = [PFObject objectWithClassName:@"Debts"];
     debt[@"fromName"] = [[PFUser currentUser] objectForKey:@"fbName"];
     debt[@"fromFbId"] = [[PFUser currentUser] objectForKey:@"fbId"];
     debt[@"amount"] = [NSNumber numberWithInt:[amount.text intValue]];
+    NSLog(@"NÄR MAN SKICKAR SKULDEN: ");
+    NSLog(@"%@ ..... %@ ..... %d", debt[@"amount"],[NSNumber numberWithInt:[amount.text intValue]],[amount.text intValue]);
     debt[@"approved"] = @NO;
     debt[@"message"] = mess.text;
     debt[@"toName"] = self.sendToPerson.name;
@@ -480,9 +495,9 @@
                                 block:^(NSString *success, NSError *error) {
                                     if (!error) {
                                         // Push sent successfully
-                                        NSLog(@"Lyckades skicka push från client till server");
+                                        NSLog(@"Lyckades skicka push från client till server: %@ ",success);
                                     }else{
-                                        NSLog(@"Lyckades INTE skicka push från client till server");
+                                        NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
                                     }
                                 }];
     
@@ -594,7 +609,7 @@
         UILabel *name = (UILabel *)[[cells objectAtIndex:0] viewWithTag:5];
         NSString * toPerson = @"Vill du skicka till personen: ";
         NSString * mess = [toPerson stringByAppendingString:name.text];
-        UITextField *debtMess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:4];
+        UITextField *debtMess = (UITextField *)[[cells objectAtIndex:2] viewWithTag:3];
         
         if ([debtMess.text isEqualToString:@""]) {
             mess = [mess stringByAppendingString:@", utan något meddelande?"];
@@ -628,6 +643,20 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
         NSLog(@"Någonting hände...Loggar ut användaren..");
     }
+}
+
+#pragma mark textfield delegate methods
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSLog(@"Inne i textfield deltegate...");
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    if (textField.tag == 4) { //belopp textField (amount textField)
+        NSLog(@"Inne i textfield deltegate tag 2...");
+        return (newLength > 7) ? NO : YES;
+    }else if (textField.tag == 3) { //meddelande textField (message textField)
+        NSLog(@"Inne i textfield deltegate tag 3...");
+        return (newLength > 20) ? NO : YES;
+    }
+    return (newLength > 20) ? NO : YES;
 }
 
 
