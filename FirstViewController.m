@@ -6,14 +6,15 @@
 //  Copyright (c) 2014 Philip Olsson. All rights reserved.
 //
 
-#import "FirstViewController.h"
+
 #import "AppDelegate.h"
+
+#import "FirstViewController.h"
 
 
 @interface FirstViewController (){
 
-    BOOL showAd;
-    
+    //BOOL showAd;
 
 }
 
@@ -30,8 +31,6 @@
 
 
 - (void)viewDidLoad {
-    NSLog(@"VIIIIIIEWWWWWWWW DID LOAD....................................................");
-    [self createAndLoadInterstitial];
     
     self.navigationItem.backBarButtonItem = nil;
     self.navigationItem.leftBarButtonItem = nil;
@@ -52,14 +51,14 @@
   
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
+   /* [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(createAndLoadInterstitial)
-                                                 name:UIApplicationDidBecomeActiveNotification object:nil];
+                                                 name:UIApplicationDidBecomeActiveNotification object:nil];*/
     
 
     if ([PFUser currentUser] == nil){
         [self.navigationController popViewControllerAnimated:YES];
-        showAd = NO;
+        //showAd = NO;
     }
     
     //Button graphics
@@ -80,14 +79,12 @@
     
     [super viewDidLoad];
     
-    
-    
     [self controlCurrentUser];
     [self controlCurrentUserInstall];
-    
-    
-    NSLog(@"3current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
-    
+    /*if ([_ShowAd isEqualToString:@"yes"]) {
+        [self createAndLoadInterstitial];
+        _ShowAd = @"no";
+    }*/
     PFQuery *unconfirmedDepts = [PFQuery queryWithClassName:@"Debts"];
     [unconfirmedDepts whereKey:@"toFbId" equalTo:[[PFUser currentUser] objectForKey:@"fbId"]];
 
@@ -101,7 +98,6 @@
                 _numOfNewDetps.hidden = YES;
             }
             else if ([objects count] <= 10) {
-                NSLog(@"Kommer hit....");
                 _numOfNewDetps.text = [NSString stringWithFormat:@"%lu",(unsigned long)[objects count]];
                 _numOfNewDetps.hidden = NO;
             }else{
@@ -116,9 +112,6 @@
             
             [error show];
         }
-        
-        NSLog(@"Antalet unfirmed depts: %lu",(unsigned long) [objects count]);
-        
     }];
 }
 
@@ -127,18 +120,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-/*- (void)didMoveToParentViewController:(UIViewController *)parent
-{
-    if (!parent) {
-        if ([PFUser currentUser] != nil) {
-        NSLog(@"Loggar ut...");
-        [PFUser logOut];
-        _user = [PFUser currentUser];
-        }
-    }
-    // parent is nil if this view controller was removed
-}*/
 
 #pragma mark buttons functions
 - (IBAction)CreateDebtButton:(id)sender {
@@ -157,32 +138,40 @@
     if ([[segue identifier] isEqualToString:@"toInfoView1"]) {
         infoOneViewController *info1View = [segue destinationViewController];
         info1View.user = [PFUser currentUser];
+    }else if([[segue identifier] isEqualToString:@"toCreateDebtView"]){
+        CreateDebtViewController *createDebtVC = [segue destinationViewController];
+        createDebtVC.delegate = self;
     }
 }
 
 #pragma mark ads functions
 
 - (void) createAndLoadInterstitial {
-//- (GADInterstitial *)createAndLoadInterstitial {
-    NSLog(@"LADAR EN AD");
+    NSLog(@"createAndLoadInterstitial....");
     self.interstitial = [[GADInterstitial alloc] init];
     GADRequest *request = [GADRequest request];
-    NSLog(@"HÄÄR");
     //request.testDevices = @[ GAD_SIMULATOR_ID, @"7ebd577f503ea3da2610888aeb1bb0ac" ];
     self.interstitial.adUnitID = @"ca-app-pub-8771089887645531/2510910809";
     self.interstitial.delegate = self;
     [self.interstitial loadRequest:request];
-    NSLog(@"Kommer hit också..");
-    //return interstitial;
 }
 
 
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
-    NSLog(@"Får tillbaka en add..");
+    NSLog(@"did receive ad");
     if ([ad isReady]){
         [ad presentFromRootViewController:self.navigationController.topViewController];
     }
+}
+
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+    NSLog(@"interstitialDidDismissScreen");
+    
+}
+- (void) interstitialWillLeaveApplication:(GADInterstitial *)ad {
+    NSLog(@"interstitialWillLeaveApplication");
+
 }
 
 #pragma mark control functions
@@ -192,7 +181,7 @@
         [PFUser logOut];
         _user = [PFUser currentUser];
         [self.navigationController popViewControllerAnimated:YES];
-        NSLog(@"Någonting hände...Loggar ut användaren..");
+       // NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 
@@ -216,9 +205,9 @@
 }
 
 - (void) logoutUser {
-    NSLog(@"Loggar ut...");
+    //NSLog(@"Loggar ut...");
     if ([PFUser currentUser] != nil) {
-        NSLog(@"Loggar ut...");
+       // NSLog(@"Loggar ut...");
         [PFUser logOut];
         _user = [PFUser currentUser];
     }
@@ -238,6 +227,17 @@
         }
     }
 }
+
+#pragma mark FirstView delegate
+
+-(void)sendDataToFirstView:(NSString *)showAd {
+    if ([showAd isEqualToString:@"yes"]) {
+        [self createAndLoadInterstitial];
+    }
+}
+
+
+
 
 
 

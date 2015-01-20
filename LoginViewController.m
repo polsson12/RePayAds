@@ -33,12 +33,7 @@
             [self performSegueWithIdentifier:@"toFirstView" sender:self];
         }else{
             [PFUser logOut];
-            NSLog(@"Någonting hände...Loggar ut användaren..");
         }
-       
-        
-        NSLog(@"KOMMER HIT xD xD xD ");
-        NSLog(@"cached current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbName"]);
     }
 }
 
@@ -62,7 +57,7 @@
 #pragma mark Login
 - (IBAction)LoginButtonHandler:(id)sender {
     
-    NSLog(@"Trying to log in...");
+   // NSLog(@"Trying to log in...");
     
     //TODO: Fix the correct permissions...
     //NSArray *permissionsArray = @[@"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
@@ -79,21 +74,21 @@
         if (!user) {
             NSString *errorMessage = nil;
             if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                //NSLog(@"Uh oh. The user cancelled the Facebook login.");
                 errorMessage = @"Avbruten inloggning.";
             } else {
-                NSLog(@"Uh oh. An error occurred: %@", error);
+                //NSLog(@"Uh oh. An error occurred: %@", error);
                 errorMessage = @"Ett fel uppstod vid inloggningen.";
             }
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fel vid inloggningen"
                                                             message:errorMessage
                                                            delegate:nil
                                                   cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Dismiss", nil];
+                                                  otherButtonTitles:@"Ok", nil];
             [alert show];
         } else {
             if (user.isNew) {
-                NSLog(@"New user with facebook signed up and logged in!");
+                //NSLog(@"New user with facebook signed up and logged in!");
 
                 [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                     if (!error) {
@@ -107,14 +102,14 @@
                         
                         [currentInstallation saveEventually:^(BOOL succeeded, NSError *error) {
                             if(succeeded){
-                                NSLog(@"Lyckades spara facebookId i current install new user");
+                               // NSLog(@"Lyckades spara facebookId i current install new user");
                             }else{
-                                NSLog(@"Lyckades INTE spara facebookId i current install new user");
+                                //NSLog(@"Lyckades INTE spara facebookId i current install new user");
                             }
                         }];
                         
                         
-                       NSLog(@"1current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
+                       //NSLog(@"1current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
                        // NSLog(@"1current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
                         //[[PFUser currentUser] saveInBackground];
                         [[PFUser currentUser] saveEventually:^(BOOL succeeded, NSError *error) {
@@ -129,7 +124,7 @@
                     }
                     else{
                         //TODO: Error handler here???
-                        NSLog(@"Error when trying to get fbId with new user..");
+                       // NSLog(@"Error when trying to get fbId with new user..");
                     }
                 }];
                 
@@ -140,12 +135,12 @@
                 
                 [currentInstallation saveEventually:^(BOOL succeeded, NSError *error) {
                     if(succeeded){
-                        NSLog(@"Lyckades spara facebookId i current install new user");
-                        NSLog(@"User with facebook logged in!");
-                        NSLog(@"2current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
+                       // NSLog(@"Lyckades spara facebookId i current install new user");
+                       // NSLog(@"User with facebook logged in!");
+                        //NSLog(@"2current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
                         [self performSegueWithIdentifier:@"toFirstView" sender:self];
                     }else{
-                        NSLog(@"Lyckades INTE spara facebookId i current install new user");
+                       // NSLog(@"Lyckades INTE spara facebookId i current install new user");
                     }
                 }];
             }

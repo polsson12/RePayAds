@@ -149,10 +149,9 @@ NSIndexPath *deleteIndex;
                 amount.textColor = [UIColor grayColor];
             }
             else{
-                
                 cell.textLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
                 cell.detailTextLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
-                amount.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
+                amount.textColor = [UIColor blackColor];//[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
             }
             
         }else{

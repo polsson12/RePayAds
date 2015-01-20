@@ -9,7 +9,6 @@
 #import "CreateDebtViewController.h"
 
 
-
 @interface CreateDebtViewController ()
 
 @end
@@ -19,12 +18,6 @@
 @synthesize friendInfo = _friendInfo;
 @synthesize activityIndicator = _activityIndicator;
 - (void)viewDidLoad {
-    //test
-    
-    
-    
-    NSLog(@"view did load...");
-    
     
     [self controlCurrentUserInstall];
     [self controlCurrentUser];
@@ -40,25 +33,21 @@
     _friendInfo = nil;
     _activityIndicator.hidden = YES;
 
-    
-    
-    
     [self checkPermissions];
 }
 
 -(void) viewWillAppear: (BOOL)animated {
     [self registerForKeyboardNotifications];
 
-
 }
 
 - (BOOL) controlInfo {
     NSArray *cells = [_informationTableView visibleCells];
-    NSLog(@"antalet celler: %lu ", (unsigned long)[cells count]);
+    //NSLog(@"antalet celler: %lu ", (unsigned long)[cells count]);
     
     //Check name
     UILabel *name = (UILabel *)[[cells objectAtIndex:0] viewWithTag:5];
-    NSLog(@"namnet: %@",name.text);
+    //NSLog(@"namnet: %@",name.text);
     if (([name.text isEqualToString:@""])) {
         UIAlertView *mustSelectPerson = [[UIAlertView alloc]
                                          initWithTitle:@"Välj en person!" message:@"Du måste välja en person att skicka skulden till" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -69,14 +58,23 @@
     
     //Check so that something is written in the amount field
     UITextField *amount = (UITextField *)[[cells objectAtIndex:1] viewWithTag:4];
-    NSLog(@"amount: %@", amount.text);
-    NSString *firstChar = [NSString stringWithFormat:@"%c", [amount.text characterAtIndex:0]];
-    if ([amount.text isEqualToString:@""] || [amount.text isEqual:@"0"] || [firstChar isEqualToString:@"0"]) {
+    //NSLog(@"amount: %@", amount.text);
+    if ([amount.text isEqualToString:@""] || [amount.text isEqual:@"0"]) {
         UIAlertView *mustSetAmount = [[UIAlertView alloc]
                                       initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [mustSetAmount show];
         return NO;
      
+    }
+    
+    if([amount.text length] > 0){
+        NSString *firstChar = [NSString stringWithFormat:@"%c", [amount.text characterAtIndex:0]];
+        if ([firstChar isEqualToString:@"0"]) {
+            UIAlertView *mustSetAmount = [[UIAlertView alloc]
+                                          initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [mustSetAmount show];
+            return NO;
+        }
     }
     
     //If non-valid text is typed
@@ -89,39 +87,6 @@
     }
     
     return YES;
-    //if ([[[cells objectAtIndex:0] contentView].tag == 1].text  ) {
-        
-    //}
-    //LÄgg in
-    /*
-    if (self.sendToPerson == nil) { //Must specify a person
-        UIAlertView *mustSelectPerson = [[UIAlertView alloc]
-         initWithTitle:@"Välj en person!" message:@"Du måste välja en person att skicka skulden till" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [mustSelectPerson show];
-    }else if([self.Amount.text isEqual:@""] || [self.Amount.text isEqual:@"0"]) { //Must specify a amount
-        UIAlertView *mustSetAmount = [[UIAlertView alloc]
-                                         initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [mustSetAmount show];
-    }else{
-        NSInteger amount = [self.Amount.text intValue];
-        if (amount == 0) { //If non-valid text is typed
-            UIAlertView *mustSetAmount = [[UIAlertView alloc]
-                                          initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [mustSetAmount show];
-        }else{
-            //Send debt to database..
-           // NSLog(@"User fb name: %@   User fbId: %@",[[PFUser currentUser] objectForKey:@"fbName"],[[PFUser currentUser] objectForKey:@"fbId"]);
-            NSString * toPerson = @"Vill du skicka till personen: ";
-            NSString * name = self.sendToPerson.name;
-            NSString * mess = [toPerson stringByAppendingString:name];
-            mess = [mess stringByAppendingString:@"?"];
-            UIAlertView *confirm = [[UIAlertView alloc]
-                                          initWithTitle:@"Bekräfta skulden" message:mess delegate:self cancelButtonTitle:@"Nej" otherButtonTitles:@"Ja",nil];
-            [confirm show];
-        }
-    }
-
-    */
 }
 
 - (IBAction)dissMissKeyboardOnTap:(id)sender {
@@ -133,9 +98,9 @@
 - (void) checkPermissions {
     NSArray *arr = [[FBSession activeSession] declinedPermissions];
     
-    for (NSString *permissions in arr) {
+    /*for (NSString *permissions in arr) {
         NSLog(@"Declined permission: %@" , permissions);
-    }
+    }*/
     
     if ([arr count] > 0) {
         [[FBSession activeSession] requestNewReadPermissions:arr completionHandler:^(FBSession *session, NSError *error) {
@@ -162,8 +127,6 @@
  */
 - (void) getAllFbFriendsOfUserUsingApp {
 
-
-    //TODO: Fix so that if a person denied permission when logging in, make a call to re-approve permission
     [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (!error) {
             [_activityIndicator stopAnimating];
@@ -183,20 +146,20 @@
             }
 
             //NSLog(@"Antalet fb vänner: %lu", (unsigned long)[_friendInfo count]);
-            for (size_t i = 0; i < [_friendInfo count]; i++) {
+            /*for (size_t i = 0; i < [_friendInfo count]; i++) {
                 Person *p = [_friendInfo objectAtIndex:i];
                 NSLog(@"Namn: %@   fbId: %@", p.name, p.fbId);
             
-            }
+            }*/
             _searchResults = _friendInfo;
             [_searchResultTableView reloadData];
         }
         else{ //handle error
-           // NSLog(@"MEGA ERROR:%@", error.domain);
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;
             UIAlertView *errorView = [[UIAlertView alloc]
                                          initWithTitle:@"Fel inträffade" message:@"Ett fel inträffade, kontrollera din internet anslutning eller försök igen senare." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            //NSLog(@"error code: %ld \n error msg: %@", (long)[error code], [error localizedDescription]);
             
             [errorView show];
             [self logoutUser];
@@ -211,7 +174,8 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections for information tableview
     if (tableView == _informationTableView) {
-        return 3;
+        return 2;
+        //return 3;
     }else
         return 1;
 }
@@ -225,20 +189,13 @@
         if (section == 0) { //  Namn, Belopp, Meddelande        (Name, Amount, Message)
             return 3;
         }
-        else if (section == 1){ //Påminnelse                    (Reminder)
-            return 1;
-        }
-        else if (section == 2){ //Skicka knapp                  (Send button)
+        else if (section == 1){ //Skicka                    (Send button)
             return 1;
         }
     }
     //Else return 0.  TODO: Is this correct? Think so!
     return 0;
-    /*
-    else {   //TODO: Is this correct??
-        return 0;
-    }
-     */
+   
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -254,10 +211,9 @@
     else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 0) {
         cellID = @"nameCell";
     }
-    else if (tableView == _informationTableView && indexPath.section == 2 && indexPath.row == 0) {
+    else if (tableView == _informationTableView && indexPath.section == 1 && indexPath.row == 0) {
         cellID = @"sendButtonCell";
     }
-    NSLog(@"cellID: %@", cellID);
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     
     
@@ -265,27 +221,20 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     
+    //amount cell
     if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 1) {
         UITextField *amountfield = (UITextField *)[cell viewWithTag:4];
-        amountfield.keyboardType = UIKeyboardTypeNumberPad;
-        //field.backgroundColor = [UIColor greenColor];
+        //amountfield.keyboardType = UIKeyboardTypeNumberPad;
         amountfield.delegate = self;
-        amountfield.returnKeyType = UIReturnKeyDone;
-        amountfield.font = [UIFont systemFontOfSize:15];
+        //amountfield.returnKeyType = UIReturnKeyDone;
+        //amountfield.font = [UIFont systemFontOfSize:15];
 
-    }
+    }//message cell
     else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 2){
         UITextField *messField = (UITextField *)[cell viewWithTag:3];
-        //field.backgroundColor = [UIColor greenColor];
         messField.delegate = self;
         messField.returnKeyType = UIReturnKeyDone;
         messField.font = [UIFont systemFontOfSize:15];
-    }
-    else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 0) {
-        //UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(120, 7, 240, 30)];
-        //UILabel *name = (UILabel*)[cell viewWithTag:5];
-        //name.backgroundColor = [UIColor redColor];
-        //name.font = [UIFont systemFontOfSize:15];
     }
     
     
@@ -299,16 +248,10 @@
                 //cell.textLabel.text = _toText;
                 cell.textLabel.text = @"Till: ";
                 UILabel *l = (UILabel*)[cell viewWithTag:5];
-                NSLog(@"toName är :%@", _toName);
+                //NSLog(@"toName är :%@", _toName);
                 l.text = _toName;
             }
             else if (indexPath.row == 1){
-                /*
-                UILabel *amount = (UILabel *)[cell viewWithTag:1];
-                amount.text = @"Belopp: ";
-                UITextField *amountInput = (UITextField *)[cell viewWith :2];
-                amountInput.placeholder = @"testing....";
-                */
                 
                 cell.textLabel.text = @"Belopp: ";
             }
@@ -316,20 +259,13 @@
                 cell.textLabel.text = @"Meddelande: ";
             }
         }
-        else if (indexPath.section == 1){
-            cell.textLabel.text = @"Påminnelse";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-        else if (indexPath.section == 2){
-            //cell.textLabel.text = @"SKICKA";
+        else if (indexPath.section == 1 && indexPath.row == 0){
             UIColor *bgC = _informationTableView.backgroundColor;
             UIButton *sendButton = (UIButton*)[cell viewWithTag:6];
             sendButton.layer.cornerRadius = 2;
             sendButton.layer.borderWidth = -1;
             sendButton.layer.borderColor = bgC.CGColor;
             
-            //[cell setHidden:YES];
-            //[_informationTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
             [_informationTableView setSeparatorColor:bgC];
             cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(cell.frame)/2, 0, CGRectGetWidth(cell.frame)/2);
             cell.backgroundColor = bgC;
@@ -367,10 +303,10 @@
                 [mess becomeFirstResponder];
             }
         }
-        else if (indexPath.section == 1) { //Påminnelse         (Remainder)
+       /* else if (indexPath.section == 1) { //Påminnelse         (Remainder)
         
-        }
-        else if (indexPath.section == 2) { //Skicka knapp        (Send button)
+        }*/
+        else if (indexPath.section == 1 && indexPath.row == 0) { //Skicka knapp        (Send button)
             if ([self controlInfo]) {
                 //Send debt to database..
                 NSArray *cells = [_informationTableView visibleCells];
@@ -415,8 +351,6 @@
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
-    NSLog(@"VALUE IS : %@", _searchBar.isFirstResponder ? @"YES" : @"NO");
-
     ///NSLog(@"search text length is: %lu", (unsigned long)[searchText length]);
     if ([searchText length] == 0) {
        // NSLog(@"search text length är 0");
@@ -428,7 +362,6 @@
         self.searchBar.hidden = YES;
     }else{
         self.searchResultTableView.hidden = NO;
-        NSLog(@"Texten ändrades till: %@", searchText);
 
 
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name beginswith[c] %@", searchText];
@@ -436,11 +369,11 @@
         
         self.searchResults = [self.friendInfo filteredArrayUsingPredicate:predicate];
         
-        if ([self.searchResults count] > 0) {
+        /*if ([self.searchResults count] > 0) {
             for (NSString *name in (self.searchResults)) {
                 NSLog(@"Results från sökningen: %@",name);
             }
-        }
+        }*/
     }
     [self.searchResultTableView reloadData];
 }
@@ -456,7 +389,7 @@
     
     _toName = _sendToPerson.name;
     [_informationTableView reloadData];
-    NSLog(@"Till namn: %@ fbID: %@", _sendToPerson.name, _sendToPerson.fbId);
+    //NSLog(@"Till namn: %@ fbID: %@", _sendToPerson.name, _sendToPerson.fbId);
     
 }
 
@@ -464,9 +397,7 @@
     
     if ([alertView.title isEqual: @"Bekräfta skulden"]) {
         if (buttonIndex == 0) {
-            NSLog(@"Cancel...");
         }else if (buttonIndex == 1){
-            NSLog(@"Skicka skuld...");
             [self sendDebtToDataBase];
         }
     }
@@ -481,9 +412,6 @@
     // Get the cells
     NSArray *cells = [_informationTableView visibleCells];
     
-    //Get the name
-    UILabel *name = (UILabel *)[[cells objectAtIndex:0] viewWithTag:5];
-    NSLog(@"namnet: %@",name.text);
     
     
     //Get the amount
@@ -497,8 +425,6 @@
     debt[@"fromName"] = [[PFUser currentUser] objectForKey:@"fbName"];
     debt[@"fromFbId"] = [[PFUser currentUser] objectForKey:@"fbId"];
     debt[@"amount"] = [NSNumber numberWithInt:[amount.text intValue]];
-    NSLog(@"NÄR MAN SKICKAR SKULDEN: ");
-    NSLog(@"%@ ..... %@ ..... %d", debt[@"amount"],[NSNumber numberWithInt:[amount.text intValue]],[amount.text intValue]);
     debt[@"approved"] = @NO;
     debt[@"message"] = mess.text;
     debt[@"toName"] = self.sendToPerson.name;
@@ -514,9 +440,9 @@
                                 block:^(NSString *success, NSError *error) {
                                     if (!error) {
                                         // Push sent successfully
-                                        NSLog(@"Lyckades skicka push från client till server: %@ ",success);
+                                        //NSLog(@"Lyckades skicka push från client till server: %@ ",success);
                                     }else{
-                                        NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
+                                        //NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
                                     }
                                 }];
     
@@ -540,6 +466,7 @@
     */
     
     //Save the object in the database
+    [_delegate sendDataToFirstView:@"yes"];
     [debt saveEventually];
     self.sendToPerson = nil;
     [self.navigationController popViewControllerAnimated:YES];
@@ -561,32 +488,10 @@
 
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification*)aNotification {
-    NSLog(@"hejsan keyboard..");
-    /*NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    scrollView.contentInset = contentInsets;
-    scrollView.scrollIndicatorInsets = contentInsets;
-    
-    // If active text field is hidden by keyboard, scroll it so it's visible
-    // Your app might not need or want this behavior.
-    CGRect aRect = self.view.frame;
-    aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, activeField.frame.origin) ) {
-        [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
-    }*/
 }
 
 // Called when the UIKeyboardWillHideNotification is sent
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification {
-    NSLog(@"hej då keyboard..");
-
-    /*
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    scrollView.contentInset = contentInsets;
-    scrollView.scrollIndicatorInsets = contentInsets;
-     */
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -598,18 +503,10 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     //NSLog(@"börjar editera.....");
     _activeKeyboard = textField;
-    /*if ([_activeKeyboard tag] == 2) {
-        UIView *doneButtonView = [[UIView alloc] initWithFrame:CGRectMake(0,120,300,44)];
-        doneButtonView.tag = 3;
-        doneButtonView.backgroundColor = [UIColor blackColor];
-        [self.view addSubview:doneButtonView];
-        //NSLog(@"Belopp keyboard.....");
-    }*/
     textField.textAlignment = NSTextAlignmentLeft;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-   // NSLog(@"BYEBYEBEYEBYEBYEY");
     _activeKeyboard = nil;
     [textField resignFirstResponder];
     textField.textAlignment = NSTextAlignmentRight;
@@ -647,7 +544,7 @@
 -(void) controlCurrentUser {
     if (!([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"])) {
         [self logoutUser];
-        NSLog(@"Någonting hände...Loggar ut användaren..");
+        //NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 
@@ -655,7 +552,7 @@
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     if (currentInstallation[@"fbId"] != [[PFUser currentUser] objectForKey:@"fbId"]) {
         [self logoutUser];
-        NSLog(@"Någonting hände...Loggar ut användaren..");
+        //NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 
@@ -666,13 +563,10 @@
 
 #pragma mark textfield delegate methods
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSLog(@"Inne i textfield deltegate...");
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
     if (textField.tag == 4) { //belopp textField (amount textField)
-        NSLog(@"Inne i textfield deltegate tag 2...");
         return (newLength > 7) ? NO : YES;
     }else if (textField.tag == 3) { //meddelande textField (message textField)
-        NSLog(@"Inne i textfield deltegate tag 3...");
         return (newLength > 20) ? NO : YES;
     }
     return (newLength > 20) ? NO : YES;

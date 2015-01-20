@@ -25,12 +25,8 @@
 
 - (void)viewDidLoad {
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
-    //[button setTitleTextAttributes:
-    //[NSDictionary dictionaryWithObjectsAndKeys:
-    //[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1], NSForegroundColorAttributeName,nil]
-      //                    forState:UIControlStateNormal];
     
-   // [button setTintColor:[UIColor redColor]];//[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1]];
+    
     self.navigationItem.backBarButtonItem = button;
     [self controlCurrentUser];
 }

@@ -10,7 +10,9 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "Person.h"
 
+/*
 @interface Person : NSObject
     @property NSString *fbId;
     @property NSString *name;
@@ -29,7 +31,10 @@
 }
 
 @end
-
+*/
+@protocol senddataProtocol <NSObject>
+-(void)sendDataToFirstView:(NSString *)willshowAd;
+@end
 
 @interface CreateDebtViewController :UIViewController<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
@@ -49,6 +54,8 @@
 @property (strong, nonatomic) UITextField *activeKeyboard;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
+@property(nonatomic,assign)id delegate;
 
 
 - (IBAction)dissMissKeyboardOnTap:(id)sender;

@@ -11,16 +11,14 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import <QuartzCore/QuartzCore.h>
+
 #import "infoOneViewController.h"
 #import "GADInterstitial.h"
+#import "CreateDebtViewController.h"
 
 
 
-/*@interface UIViewController (FirstViewController)
-
-@end*/
-
-@class GADBannerView;
+//@class CreateDebtViewController;
 
 @interface FirstViewController : UIViewController <GADInterstitialDelegate, UIAlertViewDelegate>
 

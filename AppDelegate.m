@@ -103,7 +103,7 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 
-    NSLog(@"Fail to register: %@ ", [error localizedDescription]);
+   // NSLog(@"Fail to register: %@ ", [error localizedDescription]);
 
 }
 
