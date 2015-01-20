@@ -10,7 +10,6 @@
 
 
 
-
 @interface CreateDebtViewController ()
 
 @end
@@ -39,13 +38,12 @@
     self.sendToPerson = nil;
     _toName = @"";
     _friendInfo = nil;
-    
     _activityIndicator.hidden = YES;
 
     
     
     
-    [self getAllFbFriendsOfUserUsingApp];
+    [self checkPermissions];
 }
 
 -(void) viewWillAppear: (BOOL)animated {
@@ -72,7 +70,8 @@
     //Check so that something is written in the amount field
     UITextField *amount = (UITextField *)[[cells objectAtIndex:1] viewWithTag:4];
     NSLog(@"amount: %@", amount.text);
-    if ([amount.text isEqualToString:@""] || [amount.text isEqual:@"0"]) {
+    NSString *firstChar = [NSString stringWithFormat:@"%c", [amount.text characterAtIndex:0]];
+    if ([amount.text isEqualToString:@""] || [amount.text isEqual:@"0"] || [firstChar isEqualToString:@"0"]) {
         UIAlertView *mustSetAmount = [[UIAlertView alloc]
                                       initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [mustSetAmount show];
@@ -82,9 +81,7 @@
     
     //If non-valid text is typed
     NSInteger amountInt = [amount.text intValue];
-    NSLog(@"Amount är: %d   omgjort: %d", amountInt ,(amountInt+500));
     if (amountInt <= 0) {
-        NSLog(@"Amount är: %d ", (amountInt+500));
         UIAlertView *mustSetAmount = [[UIAlertView alloc]
                                       initWithTitle:@"Ange belopp" message:@"Du måste ange ett giltigt belopp" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [mustSetAmount show];
@@ -133,15 +130,37 @@
 
 }
 
+- (void) checkPermissions {
+    NSArray *arr = [[FBSession activeSession] declinedPermissions];
+    
+    for (NSString *permissions in arr) {
+        NSLog(@"Declined permission: %@" , permissions);
+    }
+    
+    if ([arr count] > 0) {
+        [[FBSession activeSession] requestNewReadPermissions:arr completionHandler:^(FBSession *session, NSError *error) {
+            if (!error) {
+                [self getAllFbFriendsOfUserUsingApp];
+            }
+            else{
+                //fail
+                UIAlertView *confirm = [[UIAlertView alloc]
+                                        initWithTitle:@"Fel uppstod" message:@"Ett fel uppstod, kontrollera din internet anslutning eller försök igen senare." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [confirm show];
+            }
+        }];
+        
+    }
+    else {
+        [self getAllFbFriendsOfUserUsingApp];
+    }
+
+}
+
 
 /* Get all Friends of the users Facebook ID's
  */
 - (void) getAllFbFriendsOfUserUsingApp {
-    /*NSArray *arr = [[FBSession activeSession] declinedPermissions];
-     
-     for (NSString *permissions in arr) {
-     NSLog(@"Declined permission: %@" , permissions);
-     }*/
 
 
     //TODO: Fix so that if a person denied permission when logging in, make a call to re-approve permission
@@ -176,11 +195,11 @@
            // NSLog(@"MEGA ERROR:%@", error.domain);
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;
-            [self.navigationController popViewControllerAnimated:YES];
-            UIAlertView *error = [[UIAlertView alloc]
+            UIAlertView *errorView = [[UIAlertView alloc]
                                          initWithTitle:@"Fel inträffade" message:@"Ett fel inträffade, kontrollera din internet anslutning eller försök igen senare." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             
-            [error show];
+            [errorView show];
+            [self logoutUser];
         }
     }];
     _activityIndicator.hidden = NO;
@@ -627,22 +646,22 @@
 
 -(void) controlCurrentUser {
     if (!([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"])) {
-        [PFUser logOut];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self logoutUser];
         NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 
 -(void) controlCurrentUserInstall {
-    
-    
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    
     if (currentInstallation[@"fbId"] != [[PFUser currentUser] objectForKey:@"fbId"]) {
-        [PFUser logOut];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self logoutUser];
         NSLog(@"Någonting hände...Loggar ut användaren..");
     }
+}
+
+- (void) logoutUser {
+    [PFUser logOut];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark textfield delegate methods

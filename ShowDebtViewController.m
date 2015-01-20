@@ -148,7 +148,6 @@
 
 - (void) fetchDeptsForUser{
     PFQuery *toMe = [PFQuery queryWithClassName:@"Debts"];
-    //TODO: IMPORTANT!!!!!!! What if PFUser is NULL? 
     [toMe whereKey:@"toFbId" equalTo:[[PFUser currentUser] objectForKey:@"fbId"]];
 
     PFQuery *fromMe = [PFQuery queryWithClassName:@"Debts"];

@@ -49,8 +49,13 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     //TODO: Better fix for this??
-    self.navigationController.navigationBar.topItem.title = @"RePay";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Logga ut" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    //self.navigationController.navigationBar.topItem.title = @"RePay";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    //self.navigationItem.backBarButtonItem = nil;
+    //self.navigationItem.leftBarButtonItem = nil;
+
+
+    
 }
 
 
@@ -78,7 +83,7 @@
                 errorMessage = @"Avbruten inloggning.";
             } else {
                 NSLog(@"Uh oh. An error occurred: %@", error);
-                errorMessage = [error localizedDescription];
+                errorMessage = @"Ett fel uppstod vid inloggningen.";
             }
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fel vid inloggningen"
                                                             message:errorMessage
@@ -151,11 +156,11 @@
 }
 
 
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+/*- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"toFirstView"]) {
         FirstViewController *firstView = [segue destinationViewController];        
     }
-}
+}*/
 
 
 

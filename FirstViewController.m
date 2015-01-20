@@ -29,10 +29,28 @@
 
 
 
-
 - (void)viewDidLoad {
     NSLog(@"VIIIIIIEWWWWWWWW DID LOAD....................................................");
     [self createAndLoadInterstitial];
+    
+    self.navigationItem.backBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = nil;
+    //[self.navigationItem setBackBarButtonItem:nil];
+
+    [self.navigationItem setHidesBackButton:YES];
+
+
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    infoButton.frame = CGRectMake(0, 0, 80, 35);
+    [infoButton setTitle:@"Logga ut" forState:UIControlStateNormal];
+    [infoButton setTitleColor:[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1] forState:UIControlStateNormal];
+    [infoButton setTitleColor:[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:0.3] forState:UIControlStateHighlighted];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    [infoButton addTarget:self action:@selector(logoutPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+  
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(createAndLoadInterstitial)
@@ -110,7 +128,7 @@
 }
 
 
-- (void)didMoveToParentViewController:(UIViewController *)parent
+/*- (void)didMoveToParentViewController:(UIViewController *)parent
 {
     if (!parent) {
         if ([PFUser currentUser] != nil) {
@@ -120,7 +138,7 @@
         }
     }
     // parent is nil if this view controller was removed
-}
+}*/
 
 #pragma mark buttons functions
 - (IBAction)CreateDebtButton:(id)sender {
@@ -186,6 +204,38 @@
     if (currentInstallation[@"fbId"] != [[PFUser currentUser] objectForKey:@"fbId"]) {
         currentInstallation[@"fbId"] = [[PFUser currentUser] objectForKey:@"fbId"];
         [currentInstallation saveEventually];
+    }
+}
+
+- (void) logoutPressed{
+    [[[UIAlertView alloc] initWithTitle:@"Logga ut"
+                                message:@"Vill du verkligen logga ut från RePay?"
+                               delegate:self
+                      cancelButtonTitle:@"Avbryt"
+                      otherButtonTitles:@"Logga ut",nil] show];
+}
+
+- (void) logoutUser {
+    NSLog(@"Loggar ut...");
+    if ([PFUser currentUser] != nil) {
+        NSLog(@"Loggar ut...");
+        [PFUser logOut];
+        _user = [PFUser currentUser];
+    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
+
+    
+}
+
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView.title isEqual:@"Logga ut"]) {
+        if (buttonIndex == 0) { //Avbryt        (Cancel)
+            NSLog(@"Avbryt...");
+            
+        }
+        else if(buttonIndex == 1){  //Godkänn   (approve)
+            [self logoutUser];
+        }
     }
 }
 

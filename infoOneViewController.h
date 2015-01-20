@@ -11,7 +11,7 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 
 
-@interface infoOneViewController : UIViewController
+@interface infoOneViewController : UIViewController <UIAlertViewDelegate>
 
 
 @property (strong, nonatomic) PFUser *user;

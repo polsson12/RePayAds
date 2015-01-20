@@ -22,7 +22,7 @@
 
 @class GADBannerView;
 
-@interface FirstViewController : UIViewController <GADInterstitialDelegate>
+@interface FirstViewController : UIViewController <GADInterstitialDelegate, UIAlertViewDelegate>
 
 
 @property (strong, nonatomic) PFUser *user;

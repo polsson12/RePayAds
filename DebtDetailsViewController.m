@@ -17,13 +17,14 @@
 @interface DebtDetailsViewController ()
 
 
-
 @end
 
 
 @implementation DebtDetailsViewController
 
 @synthesize debts = _debts;
+NSIndexPath *deleteIndex;
+
 
 - (void)viewDidLoad {
     
@@ -114,16 +115,7 @@
     if(cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
-    /*
-    cell.detailTextLabel.text =@"yooo";
-    cell.textLabel.text =@"Yoooooo";
-    cell.textLabel.backgroundColor = [UIColor greenColor];
-    cell.detailTextLabel.backgroundColor = [UIColor greenColor];
-    */
-    /*
-    UILabel *date = (UILabel *)[cell viewWithTag:1];
-    UILabel *message = (UILabel *)[cell viewWithTag:2];
-     */
+    
     UILabel *amount = (UILabel *)[cell viewWithTag:3];
 
     
@@ -157,8 +149,6 @@
                 amount.textColor = [UIColor grayColor];
             }
             else{
-               //date.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
-               //message.textColor = [UIColor colorWithRed:0.0f green:0.478f blue:1.0f alpha:1.0f];
                 
                 cell.textLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
                 cell.detailTextLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
@@ -227,8 +217,16 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //[_objects removeObjectAtIndex:indexPath.row];
-        if (indexPath.row < [[_debts objectAtIndex:0] count]) {
+        deleteIndex = indexPath;
+        
+        UIAlertView *deleteDebt = [[UIAlertView alloc] initWithTitle:@"Ta bort skuld"
+                                                                   message:@"Vill du verkligen ta bort skulden?"
+                                                                  delegate:self
+                                                         cancelButtonTitle:@"Avbryt"
+                                                         otherButtonTitles:@"Ta bort", nil];
+        
+        [deleteDebt show];
+        /*if (indexPath.row < [[_debts objectAtIndex:0] count]) {
             NSLog(@"Detta object:%@",[[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] toName]);
             
             //TODO: redo this deletion
@@ -240,24 +238,6 @@
             [[_debts objectAtIndex:0] removeObjectAtIndex:indexPath.row];
             
             
-            //[[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] deleteInBackground];
-            /*[[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                //TODO: More error handling and loading indicator..
-                if (succeeded) {
-                    
-                    [[_debts objectAtIndex:0] removeObjectAtIndex:indexPath.row];
-
-                }else{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Misslyckades!"
-                                                                    message:@"Misslyckades att radera skulden"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                }
-            
-            
-            }];*/
         }else{
             NSString *objId = [[[_debts objectAtIndex:1] objectAtIndex:(indexPath.row - [[_debts objectAtIndex:0] count])] objectId];
 
@@ -266,41 +246,55 @@
             
             [object deleteEventually];
             [[_debts objectAtIndex:1] removeObjectAtIndex:(indexPath.row - [[_debts objectAtIndex:0] count])];
-
-            
-            /*
-            [[[_debts objectAtIndex:1] objectAtIndex:(indexPath.row%[[_debts objectAtIndex:0] delete])] deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-                if (succeeded) {
-                
-                    [[_debts objectAtIndex:1] removeObjectAtIndex:(indexPath.row%[[_debts objectAtIndex:0] count])];
-                    
-                }else{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Misslyckades!"
-                                                                    message:@"Misslyckades att radera skulden"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                }
-            }];*/
             
         }
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else {
        // NSLog(@"Unhandled editing style! %ld", editingStyle);
+    }*/
     }
-    [self calculateAmount];
+    //[self calculateAmount];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return @"Ta bort";
 }
 
-/*- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return YES if you want the specified item to be editable.
-    return YES;
-}*/
+    if (indexPath.row < [[_debts objectAtIndex:0] count]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void) deleteDebt {
+    NSLog(@"ska a bort skuld...");
+    if (deleteIndex.row < [[_debts objectAtIndex:0] count]) {
+        NSLog(@"Detta object:%@",[[[_debts objectAtIndex:0] objectAtIndex:deleteIndex.row] toName]);
+        
+        //TODO: redo this deletion
+        NSString *objId = [[[_debts objectAtIndex:0] objectAtIndex:deleteIndex.row] objectId];
+        
+        PFObject *object = [PFObject objectWithoutDataWithClassName:@"Debts"
+                                                           objectId:objId];
+        [object deleteEventually];
+        [[_debts objectAtIndex:0] removeObjectAtIndex:deleteIndex.row];
+        
+        
+    }else{
+        NSString *objId = [[[_debts objectAtIndex:1] objectAtIndex:(deleteIndex.row - [[_debts objectAtIndex:0] count])] objectId];
+        
+        PFObject *object = [PFObject objectWithoutDataWithClassName:@"Debts"
+                                                           objectId:objId];
+        
+        [object deleteEventually];
+        [[_debts objectAtIndex:1] removeObjectAtIndex:(deleteIndex.row - [[_debts objectAtIndex:0] count])];
+        
+    }
+    [_debtDetailsTableView deleteRowsAtIndexPaths:@[deleteIndex] withRowAnimation:UITableViewRowAnimationFade];
+    [self calculateAmount];
+}
 
 - (void) calculateAmount{
     NSNumber* amount = @(0);
@@ -319,18 +313,6 @@
 }
 
 
-/*NSLog(@"innan for loop");
- for (int i = 0; i < [_debts count]; i++) {
- NSLog(@"inne i i");
- for (int j = 0 ; j < [[_debts objectAtIndex:i] count]; j++) {
- NSLog(@"i: %d    j:%d",i,j);
- }
- }
- NSLog(@"Storlek: %lu", [[_debts objectAtIndex:0] count]);
- NSLog(@"storlek på _debts %@", [[[_debts objectAtIndex:0] objectAtIndex:0] toName] );
- 
- */
-
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView.title isEqual:@"Verifiera skuld"]) {
         if (buttonIndex == 0) { //Avbryt        (Cancel)
@@ -338,6 +320,14 @@
         }
         else if(buttonIndex == 1){  //Godkänn   (approve)
             [self approveDebt];
+        }
+    }
+    else if ([alertView.title isEqualToString:@"Ta bort skuld"]){
+        if (buttonIndex == 0) { //Avbryt        (Cancel)
+            
+        }
+        else if(buttonIndex == 1){  //Godkänn   (approve)
+            [self deleteDebt];
         }
     }
 }
@@ -370,8 +360,7 @@
 }
 
 -(IBAction)showInfoView {
-    [self performSegueWithIdentifier:@"toInfoDebtDetails" sender:self];
-    
+    [self performSegueWithIdentifier:@"toInfoDebtDetails" sender:self];    
 }
 
 
