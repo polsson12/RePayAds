@@ -230,7 +230,7 @@
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView.title isEqual:@"Logga ut"]) {
         if (buttonIndex == 0) { //Avbryt        (Cancel)
-            NSLog(@"Avbryt...");
+            //NSLog(@"Avbryt...");
             
         }
         else if(buttonIndex == 1){  //Godkänn   (approve)

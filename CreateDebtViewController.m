@@ -182,7 +182,7 @@
                 [_friendInfo addObject:person];
             }
 
-            NSLog(@"Antalet fb vänner: %lu", (unsigned long)[_friendInfo count]);
+            //NSLog(@"Antalet fb vänner: %lu", (unsigned long)[_friendInfo count]);
             for (size_t i = 0; i < [_friendInfo count]; i++) {
                 Person *p = [_friendInfo objectAtIndex:i];
                 NSLog(@"Namn: %@   fbId: %@", p.name, p.fbId);
