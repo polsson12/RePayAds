@@ -227,7 +227,7 @@
         //amountfield.keyboardType = UIKeyboardTypeNumberPad;
         amountfield.delegate = self;
         //amountfield.returnKeyType = UIReturnKeyDone;
-        //amountfield.font = [UIFont systemFontOfSize:15];
+        amountfield.font = [UIFont systemFontOfSize:15];
 
     }//message cell
     else if (tableView == _informationTableView && indexPath.section == 0 && indexPath.row == 2){

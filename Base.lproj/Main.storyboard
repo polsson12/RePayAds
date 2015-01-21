@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -35,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wP6-lY-Hy4">
-                                <rect key="frame" x="47" y="275" width="507" height="50"/>
+                                <rect key="frame" x="47" y="627" width="507" height="50"/>
                                 <color key="backgroundColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <constraints>
@@ -50,21 +51,21 @@
                                     <action selector="LoginButtonHandler:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fj9-Qb-ztt"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RePayLogga.png" translatesAutoresizingMaskIntoConstraints="NO" id="yDW-ya-4xd">
-                                <rect key="frame" x="235" y="74" width="130" height="130"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="180x180.png" translatesAutoresizingMaskIntoConstraints="NO" id="yDW-ya-4xd">
+                                <rect key="frame" x="66" y="74" width="468" height="468"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="CdN-ej-Huv"/>
-                                    <constraint firstAttribute="width" constant="130" id="uw0-RT-7hU"/>
+                                    <constraint firstAttribute="width" secondItem="yDW-ya-4xd" secondAttribute="height" multiplier="1:1" id="enQ-dO-27l"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wP6-lY-Hy4" firstAttribute="top" secondItem="yDW-ya-4xd" secondAttribute="bottom" constant="85" id="1pg-2S-7tw"/>
                             <constraint firstAttribute="centerX" secondItem="yDW-ya-4xd" secondAttribute="centerX" id="524-Hq-Qkh"/>
                             <constraint firstItem="yDW-ya-4xd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="GVa-t6-XSW"/>
                             <constraint firstAttribute="centerX" secondItem="wP6-lY-Hy4" secondAttribute="centerX" id="S4S-lu-PsH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wP6-lY-Hy4" secondAttribute="trailing" constant="30" id="X32-R1-bhD"/>
-                            <constraint firstAttribute="centerY" secondItem="wP6-lY-Hy4" secondAttribute="centerY" id="Zq8-aR-saF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yDW-ya-4xd" secondAttribute="trailing" constant="50" id="xlD-0r-kdT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QG9-Id-LHZ"/>
@@ -133,7 +134,7 @@
                                     <action selector="infoButton:" destination="pwA-oe-nTQ" eventType="touchUpInside" id="Gnr-Yn-3TO"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RePayLogga.png" translatesAutoresizingMaskIntoConstraints="NO" id="SzJ-a6-VKR">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="180x180.png" translatesAutoresizingMaskIntoConstraints="NO" id="SzJ-a6-VKR">
                                 <rect key="frame" x="235" y="74" width="130" height="130"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="ebj-Ry-3qi"/>
@@ -676,6 +677,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="RePayLogga.png" width="2565" height="2658"/>
+        <image name="180x180.png" width="180" height="180"/>
     </resources>
 </document>
