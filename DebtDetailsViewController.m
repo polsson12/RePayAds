@@ -23,11 +23,13 @@
 @implementation DebtDetailsViewController
 
 @synthesize debts = _debts;
+@synthesize activityIndicator = _activityIndicator;
 NSIndexPath *deleteIndex;
 
 
 - (void)viewDidLoad {
-    
+    self.navigationItem.title = @"Skulder";
+
     //Set up buttons in the navigation bar
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
@@ -36,6 +38,7 @@ NSIndexPath *deleteIndex;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
     
     
+    _activityIndicator.hidden = YES;
    /* NSDictionary *data = @{
                            @"alert": @"James commented on your photo!",
 
@@ -52,7 +55,7 @@ NSIndexPath *deleteIndex;
     NSLog(@"Inne i Debt Details View Controller");
     if (_debts == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
-                                                        message:@"Something went wrong"
+                                                        message:@"Något gick fel"
                                                        delegate:nil
                                               cancelButtonTitle:nil
                                               otherButtonTitles:@"Dismiss", nil];
@@ -151,7 +154,7 @@ NSIndexPath *deleteIndex;
             else{
                 cell.textLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
                 cell.detailTextLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
-                amount.textColor = [UIColor blackColor];//[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
+                amount.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1]; //[UIColor blackColor];
             }
             
         }else{
@@ -225,34 +228,7 @@ NSIndexPath *deleteIndex;
                                                          otherButtonTitles:@"Ta bort", nil];
         
         [deleteDebt show];
-        /*if (indexPath.row < [[_debts objectAtIndex:0] count]) {
-            NSLog(@"Detta object:%@",[[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] toName]);
-            
-            //TODO: redo this deletion
-            NSString *objId = [[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] objectId];
-
-            PFObject *object = [PFObject objectWithoutDataWithClassName:@"Debts"
-                                                               objectId:objId];
-            [object deleteEventually];
-            [[_debts objectAtIndex:0] removeObjectAtIndex:indexPath.row];
-            
-            
-        }else{
-            NSString *objId = [[[_debts objectAtIndex:1] objectAtIndex:(indexPath.row - [[_debts objectAtIndex:0] count])] objectId];
-
-            PFObject *object = [PFObject objectWithoutDataWithClassName:@"Debts"
-                                                               objectId:objId];
-            
-            [object deleteEventually];
-            [[_debts objectAtIndex:1] removeObjectAtIndex:(indexPath.row - [[_debts objectAtIndex:0] count])];
-            
-        }
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else {
-       // NSLog(@"Unhandled editing style! %ld", editingStyle);
-    }*/
     }
-    //[self calculateAmount];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -269,30 +245,53 @@ NSIndexPath *deleteIndex;
 
 - (void) deleteDebt {
     NSLog(@"ska a bort skuld...");
+    _activityIndicator.hidden = NO;
+    [_activityIndicator startAnimating];
+    _debtDetailsTableView.userInteractionEnabled = NO;
     if (deleteIndex.row < [[_debts objectAtIndex:0] count]) {
-        NSLog(@"Detta object:%@",[[[_debts objectAtIndex:0] objectAtIndex:deleteIndex.row] toName]);
+        //NSLog(@"Detta object:%@",[[[_debts objectAtIndex:0] objectAtIndex:deleteIndex.row] toName]);
         
-        //TODO: redo this deletion
         NSString *objId = [[[_debts objectAtIndex:0] objectAtIndex:deleteIndex.row] objectId];
         
         PFObject *object = [PFObject objectWithoutDataWithClassName:@"Debts"
                                                            objectId:objId];
-        [object deleteEventually];
-        [[_debts objectAtIndex:0] removeObjectAtIndex:deleteIndex.row];
-        
-        
+        [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {//succeeded to delete the object in the data base
+                [[_debts objectAtIndex:0] removeObjectAtIndex:deleteIndex.row];
+                [_debtDetailsTableView deleteRowsAtIndexPaths:@[deleteIndex] withRowAnimation:UITableViewRowAnimationFade];
+                [self calculateAmount];
+            }
+            else {  //failed to delete object in data base
+                UIAlertView *deleteErr = [[UIAlertView alloc]
+                                        initWithTitle:@"Fel uppstod" message:@"Ett fel uppstod, kontrollera din internet anslutning eller försök igen senare." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [deleteErr show];
+            }
+            _debtDetailsTableView.userInteractionEnabled = YES;
+            _activityIndicator.hidden = YES;
+            [_activityIndicator stopAnimating];
+        }];
     }else{
         NSString *objId = [[[_debts objectAtIndex:1] objectAtIndex:(deleteIndex.row - [[_debts objectAtIndex:0] count])] objectId];
         
         PFObject *object = [PFObject objectWithoutDataWithClassName:@"Debts"
                                                            objectId:objId];
         
-        [object deleteEventually];
-        [[_debts objectAtIndex:1] removeObjectAtIndex:(deleteIndex.row - [[_debts objectAtIndex:0] count])];
-        
+        [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [[_debts objectAtIndex:1] removeObjectAtIndex:(deleteIndex.row - [[_debts objectAtIndex:0] count])];
+                [_debtDetailsTableView deleteRowsAtIndexPaths:@[deleteIndex] withRowAnimation:UITableViewRowAnimationFade];
+                [self calculateAmount];
+            }
+            else {
+                UIAlertView *deleteErr = [[UIAlertView alloc]
+                                          initWithTitle:@"Fel uppstod" message:@"Ett fel uppstod, kontrollera din internet anslutning eller försök igen senare." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [deleteErr show];
+            }
+            _activityIndicator.hidden = YES;
+            [_activityIndicator stopAnimating];
+        }];
     }
-    [_debtDetailsTableView deleteRowsAtIndexPaths:@[deleteIndex] withRowAnimation:UITableViewRowAnimationFade];
-    [self calculateAmount];
+    
 }
 
 - (void) calculateAmount{
@@ -300,13 +299,17 @@ NSIndexPath *deleteIndex;
     
     
     for (int i = 0; i < [[_debts objectAtIndex:0] count]; i++) {
-        NSLog(@"Amount %@", [[[_debts objectAtIndex:0] objectAtIndex:i] amount] );
-        amount = [NSNumber numberWithFloat:([[[[_debts objectAtIndex:0] objectAtIndex:i] amount] floatValue]  + [amount floatValue])];
+        if ([[[_debts objectAtIndex:0] objectAtIndex:i] approved]) {
+            NSLog(@"Amount %@", [[[_debts objectAtIndex:0] objectAtIndex:i] amount] );
+            amount = [NSNumber numberWithFloat:([[[[_debts objectAtIndex:0] objectAtIndex:i] amount] floatValue]  + [amount floatValue])];
+        }
     }
 
     for (int i = 0; i < [[_debts objectAtIndex:1] count]; i++) {
-        NSLog(@"Amount %@", [[[_debts objectAtIndex:1] objectAtIndex:i] amount] );
-        amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[_debts objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
+        NSLog(@"Amount %@", [[[_debts objectAtIndex:1] objectAtIndex:i] amount]);
+        if ([[[_debts objectAtIndex:1] objectAtIndex:i] approved]) {
+            amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[_debts objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
+        }
     }
     _differanceLabel.text = [amount stringValue];
 }
@@ -334,27 +337,45 @@ NSIndexPath *deleteIndex;
 -(void) approveDebt{
     if (selectedRow != -1) {
         NSInteger index = selectedRow - [[_debts objectAtIndex:0] count];
-        NSLog(@"DEN OMRÄKNADE VALDA RADEN ÄR: %ld ", (long) index);
-        //NSNumber *a = [[[_debts objectAtIndex:1] objectAtIndex:index] amount];
-        //NSLog(@"beloppet som är bekräftat: %@", a);
-        Debt *d = [[_debts objectAtIndex:1] objectAtIndex:index];
-        d.approved = YES;
+        
         
         PFQuery *query = [PFQuery queryWithClassName:@"Debts"];
+        Debt *d = [[_debts objectAtIndex:1] objectAtIndex:index];
         
         // Retrieve the object by id
+        _activityIndicator.hidden = NO;
+        [_activityIndicator startAnimating];
         [query getObjectInBackgroundWithId:d.objectId block:^(PFObject *object, NSError *error) {
-            
-            // Now let's update it with some new data. In this case, only cheatMode and score
-            // will get sent to the cloud. playerName hasn't changed.
-            object[@"approved"] = @YES;
-            [object saveEventually];
-            
+            if (!error) { //No error when loading the specified debt from the data base
+                object[@"approved"] = @YES;
+                //Now save the debt to the data base
+                [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    //Succeeded to save the debt
+                    if (succeeded) {
+                        _activityIndicator.hidden = YES;
+                        [_activityIndicator stopAnimating];
+                        d.approved = YES;
+                        [_debtDetailsTableView reloadData];
+                        [self calculateAmount];
+                    }
+                    else { //Failed to save the debt to the database.
+                        _activityIndicator.hidden = YES;
+                        [_activityIndicator stopAnimating];
+                        UIAlertView *confirm = [[UIAlertView alloc]
+                                                initWithTitle:@"Fel uppstod" message:@"Ett fel uppstod, kontrollera din internet anslutning eller försök igen senare." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                        [confirm show];
+                    }
+                }];
+            }else {
+                _activityIndicator.hidden = YES;
+                [_activityIndicator stopAnimating];
+                UIAlertView *confirm = [[UIAlertView alloc]
+                                        initWithTitle:@"Fel uppstod" message:@"Ett fel uppstod, kontrollera din internet anslutning eller försök igen senare." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [confirm show];
+            }
         }];
 
     }
-    
-    [_debtDetailsTableView reloadData];
     selectedRow = -1;
 }
 

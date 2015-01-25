@@ -34,7 +34,6 @@
     
     
     //Enable push notifications
-    NSLog(@"didFinishLaunchingWithOptions");
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
                                                     UIUserNotificationTypeBadge |
                                                     UIUserNotificationTypeSound);
@@ -42,6 +41,16 @@
                                                                              categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
+    
+    
+    NSDictionary * navBarTitleTextAttributes =
+  @{ NSForegroundColorAttributeName : [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1],
+     //NSShadowAttributeName          : shadow,
+     NSFontAttributeName            : [UIFont boldSystemFontOfSize:20.0]
+     };// [UIFont systemFontOfSize:20] };
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:navBarTitleTextAttributes];
+    
     
     return YES;
 }

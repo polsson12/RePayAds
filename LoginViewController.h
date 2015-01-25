@@ -10,7 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
-//#import "FirstViewController.h"
+#import "FirstViewController.h"
 
 
 @interface LoginViewController : UIViewController
@@ -18,6 +18,7 @@
 //- (void)pushFirstViewController;
 //- (void)addUserToDatabase;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 

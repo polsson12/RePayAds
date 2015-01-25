@@ -18,10 +18,12 @@
 @synthesize friendInfo = _friendInfo;
 @synthesize activityIndicator = _activityIndicator;
 - (void)viewDidLoad {
-    
+
     [self controlCurrentUserInstall];
     [self controlCurrentUser];
-    
+
+    self.navigationItem.title = @"Skapa skuld";
+
     self.searchResultTableView.hidden = YES;
     self.searchBar.hidden = YES;
     
@@ -398,6 +400,7 @@
     if ([alertView.title isEqual: @"Bekräfta skulden"]) {
         if (buttonIndex == 0) {
         }else if (buttonIndex == 1){
+            NSLog(@"Klickar på ja knappen");
             [self sendDebtToDataBase];
         }
     }
@@ -432,19 +435,7 @@
     
     //send a push to the user
     
-    PFUser *currentUser = [PFUser currentUser];
-    NSString *message = [NSString stringWithFormat:@"Du har en ny skuld från %@ på %@ kr", currentUser[@"fbName"], amount.text];
-
-    [PFCloud callFunctionInBackground:@"sendPushToUser"
-                       withParameters:@{@"recipientId": self.sendToPerson.fbId, @"message": message}
-                                block:^(NSString *success, NSError *error) {
-                                    if (!error) {
-                                        // Push sent successfully
-                                        //NSLog(@"Lyckades skicka push från client till server: %@ ",success);
-                                    }else{
-                                        //NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
-                                    }
-                                }];
+    
     
     /*
     PFQuery *pushQuery = [PFInstallation query];
@@ -466,10 +457,56 @@
     */
     
     //Save the object in the database
+    UIButton *sendButton = (UIButton *)[[cells objectAtIndex:3] viewWithTag:6];
+    UITableViewCell *sendButtonCell = [cells objectAtIndex:3];
+    sendButtonCell.userInteractionEnabled = NO;
+    [sendButton setAlpha:0.5];
+    
+    //Show loading indicator and activate it
+    _activityIndicator.hidden = NO;
+    [_activityIndicator startAnimating];
     [_delegate sendDataToFirstView:@"yes"];
-    [debt saveEventually];
-    self.sendToPerson = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    [debt saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {    //Send dept to database with succes
+            //Send push
+            PFUser *currentUser = [PFUser currentUser];
+            NSString *message = [NSString stringWithFormat:@"Du har en ny skuld från %@ på %@ kr", currentUser[@"fbName"], amount.text];
+            
+            [PFCloud callFunctionInBackground:@"sendPushToUser"
+                               withParameters:@{@"recipientId": self.sendToPerson.fbId, @"message": message}
+                                        block:^(NSString *success, NSError *error) {
+                                            if (!error) {
+                                                // Push sent successfully
+                                                NSLog(@"Lyckades skicka push från client till server: %@ ",success);
+                                            }else{
+                                                NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
+                                            }
+                                        }];
+            
+            //Go back to first view VC and stop loading indicator
+            [_activityIndicator stopAnimating];
+            _activityIndicator.hidden = YES;
+            self.sendToPerson = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else { //An error occuredd when saving the object to data base
+            
+            //Display error alert view
+            //NSLog(@"ERROR WHEN SAVING OBJECT..");
+            _activityIndicator.hidden = YES;
+            [_activityIndicator stopAnimating];
+            
+            //Show error message
+            UIAlertView *confirm = [[UIAlertView alloc]
+                                    initWithTitle:@"Fel uppstod" message:@"Ett fel uppstod, kontrollera din internet anslutning eller försök igen senare." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [confirm show];
+
+        
+        }
+        sendButtonCell.userInteractionEnabled = YES;
+        [sendButton setAlpha:1.0];
+
+    }];
     
 }
 

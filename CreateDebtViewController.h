@@ -55,6 +55,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+
 @property(nonatomic,assign)id delegate;
 
 

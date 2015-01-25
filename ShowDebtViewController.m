@@ -24,10 +24,11 @@
 
 
 - (void)viewDidLoad {
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    /*UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Skulder" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    self.navigationItem.backBarButtonItem = button;*/
     
-    
-    self.navigationItem.backBarButtonItem = button;
+    self.navigationItem.title = @"Skulder";
+
     [self controlCurrentUser];
 }
 
@@ -95,13 +96,16 @@
         
         for (int i = 0; i < [[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] count]; i++) {
             NSLog(@"Amount %@", [[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] amount]);
-            amount = [NSNumber numberWithFloat:([[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] amount] floatValue]  + [amount floatValue])];
+            if ([[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] approved]) {
+                amount = [NSNumber numberWithFloat:([[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] amount] floatValue]  + [amount floatValue])];
+            }
         }
         
         for (int i = 0; i < [[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] count]; i++) {
             NSLog(@"Amount %@", [[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] amount] );
-            amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
-            if (![[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] approved]) {
+            if ([[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] approved]) {
+                amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
+            }else {
                 numNonApp ++;
             }
         }
@@ -116,7 +120,7 @@
             }
         }
         
-        //hey
+        //set the corrent text color in the table view
         if (app) {
             cell.textLabel.textColor  = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
             amountLabel.textColor = [UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1];
@@ -206,7 +210,6 @@
         } else {
             //TODO: No internet connection?
             // Log details of the failure
-            NSLog(@"KOMER HITKOMER HITKOMER HITKOMER HITKOMER HITKOMER HITKOMER HITKOMER HITKOMER HIT");
             NSLog(@"Error123: %@ %@", error, [error userInfo]);
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;

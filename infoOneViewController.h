@@ -17,6 +17,7 @@
 @property (strong, nonatomic) PFUser *user;
 
 @property (weak, nonatomic) IBOutlet UIButton *deleteUserButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
 @end

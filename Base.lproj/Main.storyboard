@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="-528" y="260"/>
         </scene>
-        <!--Login-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Login" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -57,11 +57,16 @@
                                     <constraint firstAttribute="width" secondItem="yDW-ya-4xd" secondAttribute="height" multiplier="1:1" id="enQ-dO-27l"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="WhY-36-8ZA">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wP6-lY-Hy4" firstAttribute="top" secondItem="yDW-ya-4xd" secondAttribute="bottom" constant="40" id="1pg-2S-7tw"/>
+                            <constraint firstAttribute="centerY" secondItem="WhY-36-8ZA" secondAttribute="centerY" id="3as-Nk-OIr"/>
                             <constraint firstAttribute="centerX" secondItem="yDW-ya-4xd" secondAttribute="centerX" id="524-Hq-Qkh"/>
+                            <constraint firstAttribute="centerX" secondItem="WhY-36-8ZA" secondAttribute="centerX" id="EXK-Ia-7jR"/>
                             <constraint firstItem="yDW-ya-4xd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="GVa-t6-XSW"/>
                             <constraint firstAttribute="centerX" secondItem="wP6-lY-Hy4" secondAttribute="centerX" id="S4S-lu-PsH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wP6-lY-Hy4" secondAttribute="trailing" constant="30" id="X32-R1-bhD"/>
@@ -70,6 +75,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="QG9-Id-LHZ"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="WhY-36-8ZA" id="ulE-Qc-GBW"/>
                         <outlet property="loginButton" destination="wP6-lY-Hy4" id="sae-hs-IFv"/>
                         <segue destination="pwA-oe-nTQ" kind="show" identifier="toFirstView" id="z7n-dp-jyS"/>
                     </connections>
@@ -78,10 +84,10 @@
             </objects>
             <point key="canvasLocation" x="238" y="255"/>
         </scene>
-        <!--RePay-->
+        <!--First View Controller-->
         <scene sceneID="nVX-vl-BmT">
             <objects>
-                <viewController storyboardIdentifier="FirstViewController" title="RePay" id="pwA-oe-nTQ" customClass="FirstViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstViewController" id="pwA-oe-nTQ" customClass="FirstViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o8Z-T8-AsI"/>
                         <viewControllerLayoutGuide type="bottom" id="oG7-hJ-SCJ"/>
@@ -193,14 +199,14 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4D-JH-uK4">
                                 <rect key="frame" x="36" y="114" width="528" height="41"/>
-                                <string key="text">1. Klicka ”Skapa” för att skapa en ny skuld. 
+                                <string key="text">Klicka ”Skapa” för att skapa en ny skuld. 
 </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. Klicka ”Skulder” för att se dina samlade skulder." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWb-Zf-i0Y">
-                                <rect key="frame" x="36" y="155" width="528" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Klicka ”Skulder” för att se dina samlade skulder. " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWb-Zf-i0Y">
+                                <rect key="frame" x="36" y="155" width="528" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -225,6 +231,15 @@
                                 <color key="textColor" red="1" green="0.004017409207" blue="0.073230540339999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fN3-HP-0kT">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RePay hjälper dig att hålla reda på obetalda skulder genom att skicka påminnelser till dig varje vecka." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzY-lL-At5">
+                                <rect key="frame" x="36" y="196" width="548" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -235,15 +250,21 @@
                             <constraint firstAttribute="trailingMargin" secondItem="6mL-Ii-1Uo" secondAttribute="trailing" constant="20" id="EkS-TT-CxQ"/>
                             <constraint firstItem="HWb-Zf-i0Y" firstAttribute="trailing" secondItem="I4D-JH-uK4" secondAttribute="trailing" id="PsQ-zp-i2l"/>
                             <constraint firstItem="6mL-Ii-1Uo" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leadingMargin" constant="20" id="QHw-GB-KrQ"/>
+                            <constraint firstAttribute="centerY" secondItem="fN3-HP-0kT" secondAttribute="centerY" id="TOb-pm-m7J"/>
+                            <constraint firstItem="QzY-lL-At5" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leadingMargin" constant="20" id="YT9-1V-mRq"/>
                             <constraint firstItem="I4D-JH-uK4" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leadingMargin" constant="20" id="aCa-zL-3PX"/>
+                            <constraint firstItem="QzY-lL-At5" firstAttribute="top" secondItem="HWb-Zf-i0Y" secondAttribute="bottom" id="cyX-Cp-jQi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I4D-JH-uK4" secondAttribute="trailing" constant="20" id="d7l-2N-rSK"/>
                             <constraint firstItem="I4D-JH-uK4" firstAttribute="top" secondItem="9Si-06-ncv" secondAttribute="bottom" constant="50" id="iCW-pF-TLC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QzY-lL-At5" secondAttribute="trailing" id="iue-hV-AjI"/>
                             <constraint firstAttribute="centerX" secondItem="I4D-JH-uK4" secondAttribute="centerX" id="mQK-ZZ-Wel"/>
                             <constraint firstItem="HWb-Zf-i0Y" firstAttribute="leading" secondItem="I4D-JH-uK4" secondAttribute="leading" id="qd8-y6-GMi"/>
+                            <constraint firstAttribute="centerX" secondItem="fN3-HP-0kT" secondAttribute="centerX" id="uq5-ji-Onq"/>
                             <constraint firstItem="qCI-Bl-Lxq" firstAttribute="top" secondItem="lg7-kD-2E8" secondAttribute="bottom" constant="20" id="x4V-u5-eOw"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="fN3-HP-0kT" id="zte-wo-jhd"/>
                         <outlet property="deleteUserButton" destination="lg7-kD-2E8" id="aNA-yz-cfL"/>
                     </connections>
                 </viewController>
@@ -302,7 +323,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="sendDebtButton:" destination="o8Y-d3-bLO" eventType="touchUpInside" id="kLL-Ow-gHM"/>
+                                                        <action selector="sendDebtButton:" destination="o8Y-d3-bLO" eventType="touchUpInside" id="oSH-aX-LQ4"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -437,13 +458,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z37-fi-Js0">
-                                                    <rect key="frame" x="524" y="11" width="50.5" height="21"/>
+                                                    <rect key="frame" x="524" y="11" width="51" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMi-HT-gsP">
-                                                    <rect key="frame" x="490.5" y="11" width="21" height="21"/>
+                                                    <rect key="frame" x="491" y="11" width="21" height="21"/>
                                                     <color key="backgroundColor" red="1" green="0.004017409207" blue="0.073230540339999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="21" id="0gI-3c-lQa"/>
@@ -518,20 +539,21 @@
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Belopp:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F69-WH-92N">
-                                <rect key="frame" x="16" y="501" width="70" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summa:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F69-WH-92N">
+                                <rect key="frame" x="16" y="501" width="110" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="h8w-C8-Od5"/>
+                                    <constraint firstAttribute="width" constant="110" id="h8w-C8-Od5"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ant kr" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YSV-UA-pTE">
-                                <rect key="frame" x="540.5" y="501" width="45.5" height="40"/>
+                                <rect key="frame" x="539" y="501" width="47" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="V2V-N3-nsr"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dZi-P1-VQc">
@@ -575,6 +597,9 @@
                                     <outlet property="delegate" destination="rdg-zH-8vI" id="RZH-K1-YXu"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="LOI-jO-DMI">
+                                <rect key="frame" x="290" y="266" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -587,13 +612,16 @@
                             <constraint firstItem="8NU-zl-Y4D" firstAttribute="top" secondItem="F69-WH-92N" secondAttribute="bottom" constant="10" id="VYl-YS-tHm"/>
                             <constraint firstItem="sxc-VT-ir9" firstAttribute="centerX" secondItem="ZgC-7t-j0z" secondAttribute="centerX" id="apy-TM-a3z"/>
                             <constraint firstItem="dZi-P1-VQc" firstAttribute="top" secondItem="Yx0-6T-dUY" secondAttribute="bottom" constant="94" id="gVG-wd-vDE"/>
+                            <constraint firstAttribute="centerX" secondItem="LOI-jO-DMI" secondAttribute="centerX" id="pkR-vD-6cO"/>
                             <constraint firstItem="F69-WH-92N" firstAttribute="top" secondItem="dZi-P1-VQc" secondAttribute="bottom" constant="8" id="t7f-aN-MDQ"/>
                             <constraint firstItem="F69-WH-92N" firstAttribute="leading" secondItem="ZgC-7t-j0z" secondAttribute="leadingMargin" id="tml-Zf-50U"/>
                             <constraint firstItem="F69-WH-92N" firstAttribute="firstBaseline" secondItem="YSV-UA-pTE" secondAttribute="firstBaseline" id="zDM-m5-qud"/>
+                            <constraint firstAttribute="centerY" secondItem="LOI-jO-DMI" secondAttribute="centerY" id="zSZ-qu-3GX"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="LOI-jO-DMI" id="Gt2-oz-SW0"/>
                         <outlet property="debtDetailsTableView" destination="dZi-P1-VQc" id="Chn-vR-DT2"/>
                         <outlet property="differanceLabel" destination="YSV-UA-pTE" id="x41-ul-xKz"/>
                         <outlet property="nameLabel" destination="sxc-VT-ir9" id="vTY-ls-Tqw"/>
@@ -604,10 +632,10 @@
             </objects>
             <point key="canvasLocation" x="2583" y="640"/>
         </scene>
-        <!--View Controller-->
+        <!--Information-->
         <scene sceneID="vIw-yl-hht">
             <objects>
-                <viewController id="ewB-XR-x5r" sceneMemberID="viewController">
+                <viewController title="Information" id="ewB-XR-x5r" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gr2-HI-Tif"/>
                         <viewControllerLayoutGuide type="bottom" id="QGV-q4-hzT"/>
@@ -617,36 +645,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tryck på beloppet för att godkänna skulden." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUQ-oZ-N04">
-                                <rect key="frame" x="36" y="114" width="528" height="20.5"/>
+                                <rect key="frame" x="36" y="114" width="528" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grå skuld = Obekräftad skuld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJe-Ue-d7r">
-                                <rect key="frame" x="36" y="217.5" width="528" height="20.5"/>
+                                <rect key="frame" x="36" y="218" width="528" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blå skuld = Bekräftad skuld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9K-IJ-tW2">
-                                <rect key="frame" x="36" y="259" width="528" height="20.5"/>
+                                <rect key="frame" x="36" y="259" width="528" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Svart belopp = Utlånat belopp." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cka-zL-tdq">
-                                <rect key="frame" x="36" y="300.5" width="528" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blått belopp = Utlånat belopp." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cka-zL-tdq">
+                                <rect key="frame" x="36" y="301" width="528" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rött belopp = Lånat belopp." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cts-VH-knb">
-                                <rect key="frame" x="36" y="342" width="528" height="20.5"/>
+                                <rect key="frame" x="36" y="342" width="528" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Svep höger på beloppet för att bort en skuld. (Godkänd skuld kan endast tas bort av den som skapat skulden)." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhw-wc-TWn">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Svep höger på beloppet för att ta bort en skuld. (Godkänd skuld kan endast tas bort av den som skapat skulden)." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhw-wc-TWn">
                                 <rect key="frame" x="36" y="156" width="528" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>

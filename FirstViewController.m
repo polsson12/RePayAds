@@ -32,22 +32,30 @@
 
 - (void)viewDidLoad {
     
-    self.navigationItem.backBarButtonItem = nil;
-    self.navigationItem.leftBarButtonItem = nil;
+   // self.navigationItem.backBarButtonItem = nil;
+   // self.navigationItem.leftBarButtonItem = nil;
+    //self.navigationItem.hidesBackButton = YES;
+//   [self.navigationItem setHidesBackButton:YES animated:YES];
+
+    //self.navigationItem.prompt = @"RePay";
+    self.navigationItem.title = @"RePay";
+    //self.navigationItem.leftBarButtonItem = nil;
+    //NSLog(@"Antal knappar till vänster: %d",[self.navigationItem.leftBarButtonItems count]);
     //[self.navigationItem setBackBarButtonItem:nil];
-
-    [self.navigationItem setHidesBackButton:YES];
-
-
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    infoButton.frame = CGRectMake(0, 0, 80, 35);
-    [infoButton setTitle:@"Logga ut" forState:UIControlStateNormal];
-    [infoButton setTitleColor:[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1] forState:UIControlStateNormal];
-    [infoButton setTitleColor:[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:0.3] forState:UIControlStateHighlighted];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-    [infoButton addTarget:self action:@selector(logoutPressed) forControlEvents:UIControlEventTouchUpInside];
+    /*UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"RePay" style:self.navigationItem.backBarButtonItem.style target:nil action:nil];
+    self.navigationItem.backBarButtonItem = button;
+*/
+    //logout button
+    UIButton *logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoutButton.frame = CGRectMake(0, 0, 80, 35);
+    [logoutButton setTitle:@"Logga ut" forState:UIControlStateNormal];
+    [logoutButton setTitleColor:[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:1] forState:UIControlStateNormal];
+    [logoutButton setTitleColor:[UIColor colorWithRed:77.0/255.0 green:175.0/255.0 blue:231.0/255.0 alpha:0.3] forState:UIControlStateHighlighted];
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:logoutButton];
+    [logoutButton addTarget:self action:@selector(logoutPressed) forControlEvents:UIControlEventTouchUpInside];
+
   
     
     
@@ -79,6 +87,8 @@
     
     [super viewDidLoad];
     
+
+
     [self controlCurrentUser];
     [self controlCurrentUserInstall];
     /*if ([_ShowAd isEqualToString:@"yes"]) {
@@ -210,8 +220,9 @@
        // NSLog(@"Loggar ut...");
         [PFUser logOut];
         _user = [PFUser currentUser];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
 
     
 }
