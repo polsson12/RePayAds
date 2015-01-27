@@ -152,7 +152,6 @@
                                                    delegate:self
                                           cancelButtonTitle:@"Ok!"
                                           otherButtonTitles:nil] show];
-                        //TODO: Error handler here???
                        // NSLog(@"Error when trying to get fbId with new user..");
                     }
                 }];
@@ -168,12 +167,12 @@
                     _loginButton.enabled = YES;
                     _loginButton.alpha = 1.0;
                     if(succeeded){
-                        NSLog(@"Lyckades spara facebookId i current install new user");
-                        NSLog(@"User with facebook logged in!");
+                        //NSLog(@"Lyckades spara facebookId i current install new user");
+                        //NSLog(@"User with facebook logged in!");
                         //NSLog(@"2current user facebook ID: %@", [[PFUser currentUser] objectForKey:@"fbId"]);
                         [self performSegueWithIdentifier:@"toFirstView" sender:self];
                     }else{
-                        NSLog(@"Lyckades INTE spara facebookId i current install new user");
+                        //NSLog(@"Lyckades INTE spara facebookId i current install new user");
                         [[[UIAlertView alloc] initWithTitle:@"Fel vid inloggningen"
                                                     message:@"Misslyckades med inloggningen. Kontrollera din internet anslutning eller försök igen senare."
                                                    delegate:self

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Sep-h6-Ge7">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -197,16 +198,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4D-JH-uK4">
-                                <rect key="frame" x="36" y="114" width="528" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4D-JH-uK4">
+                                <rect key="frame" x="36" y="94" width="528" height="41"/>
                                 <string key="text">Klicka ”Skapa” för att skapa en ny skuld. 
 </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Klicka ”Skulder” för att se dina samlade skulder. " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWb-Zf-i0Y">
-                                <rect key="frame" x="36" y="155" width="528" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Klicka ”Skulder” för att se dina samlade skulder. " lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HWb-Zf-i0Y">
+                                <rect key="frame" x="36" y="135" width="528" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -225,8 +226,8 @@
                                     <action selector="deleteUserButton:" destination="E8t-2h-KIm" eventType="touchUpInside" id="Nz3-dU-zL9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OBS! Om du väljer att ta bort ditt konto försvinner alla dina skulder." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mL-Ii-1Uo">
-                                <rect key="frame" x="36" y="485" width="528" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OBS! Om du väljer att ta bort ditt konto försvinner alla dina skulder." lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mL-Ii-1Uo">
+                                <rect key="frame" x="35" y="485" width="529" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.004017409207" blue="0.073230540339999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -234,8 +235,8 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fN3-HP-0kT">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RePay hjälper dig att hålla reda på obetalda skulder genom att skicka påminnelser till dig varje vecka." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzY-lL-At5">
-                                <rect key="frame" x="36" y="196" width="548" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RePay hjälper dig att hålla reda på obetalda skulder genom att skicka påminnelser till dig varje vecka." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzY-lL-At5">
+                                <rect key="frame" x="36" y="176" width="548" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -249,13 +250,13 @@
                             <constraint firstItem="lg7-kD-2E8" firstAttribute="top" secondItem="6mL-Ii-1Uo" secondAttribute="bottom" constant="30" id="E14-t3-KGd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6mL-Ii-1Uo" secondAttribute="trailing" constant="20" id="EkS-TT-CxQ"/>
                             <constraint firstItem="HWb-Zf-i0Y" firstAttribute="trailing" secondItem="I4D-JH-uK4" secondAttribute="trailing" id="PsQ-zp-i2l"/>
-                            <constraint firstItem="6mL-Ii-1Uo" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leadingMargin" constant="20" id="QHw-GB-KrQ"/>
+                            <constraint firstItem="6mL-Ii-1Uo" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leading" constant="35" id="QHw-GB-KrQ"/>
                             <constraint firstAttribute="centerY" secondItem="fN3-HP-0kT" secondAttribute="centerY" id="TOb-pm-m7J"/>
-                            <constraint firstItem="QzY-lL-At5" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leadingMargin" constant="20" id="YT9-1V-mRq"/>
-                            <constraint firstItem="I4D-JH-uK4" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leadingMargin" constant="20" id="aCa-zL-3PX"/>
+                            <constraint firstItem="QzY-lL-At5" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leading" constant="36" id="YT9-1V-mRq"/>
+                            <constraint firstItem="I4D-JH-uK4" firstAttribute="leading" secondItem="xWg-54-g37" secondAttribute="leading" constant="36" id="aCa-zL-3PX" userLabel="Horizontal Space - (20) - Klicka ”Skapa” för att skapa en ny skuld.   - View"/>
                             <constraint firstItem="QzY-lL-At5" firstAttribute="top" secondItem="HWb-Zf-i0Y" secondAttribute="bottom" id="cyX-Cp-jQi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I4D-JH-uK4" secondAttribute="trailing" constant="20" id="d7l-2N-rSK"/>
-                            <constraint firstItem="I4D-JH-uK4" firstAttribute="top" secondItem="9Si-06-ncv" secondAttribute="bottom" constant="50" id="iCW-pF-TLC"/>
+                            <constraint firstItem="I4D-JH-uK4" firstAttribute="top" secondItem="9Si-06-ncv" secondAttribute="bottom" constant="30" id="iCW-pF-TLC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QzY-lL-At5" secondAttribute="trailing" id="iue-hV-AjI"/>
                             <constraint firstAttribute="centerX" secondItem="I4D-JH-uK4" secondAttribute="centerX" id="mQK-ZZ-Wel"/>
                             <constraint firstItem="HWb-Zf-i0Y" firstAttribute="leading" secondItem="I4D-JH-uK4" secondAttribute="leading" id="qd8-y6-GMi"/>
@@ -458,13 +459,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z37-fi-Js0">
-                                                    <rect key="frame" x="524" y="11" width="51" height="21"/>
+                                                    <rect key="frame" x="524.5" y="11" width="50.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMi-HT-gsP">
-                                                    <rect key="frame" x="491" y="11" width="21" height="21"/>
+                                                    <rect key="frame" x="490.5" y="11" width="21" height="21"/>
                                                     <color key="backgroundColor" red="1" green="0.004017409207" blue="0.073230540339999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="21" id="0gI-3c-lQa"/>
@@ -477,7 +478,7 @@
                                             <constraints>
                                                 <constraint firstItem="Z37-fi-Js0" firstAttribute="centerY" secondItem="zbL-UW-f3s" secondAttribute="centerY" id="4eR-Xe-dcn"/>
                                                 <constraint firstItem="mMi-HT-gsP" firstAttribute="bottom" secondItem="Z37-fi-Js0" secondAttribute="bottom" id="L5U-t9-5tX"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Z37-fi-Js0" secondAttribute="trailing" constant="-8" id="dof-Xw-wGh"/>
+                                                <constraint firstAttribute="trailing" secondItem="Z37-fi-Js0" secondAttribute="trailing" id="dof-Xw-wGh"/>
                                                 <constraint firstItem="Z37-fi-Js0" firstAttribute="top" secondItem="zbL-UW-f3s" secondAttribute="topMargin" constant="3" id="hOq-m9-gl6"/>
                                                 <constraint firstItem="Z37-fi-Js0" firstAttribute="leading" secondItem="mMi-HT-gsP" secondAttribute="trailing" constant="13" id="kXz-oh-FeE"/>
                                                 <constraint firstItem="mMi-HT-gsP" firstAttribute="top" secondItem="Z37-fi-Js0" secondAttribute="top" id="qDP-uL-7Pf"/>
@@ -539,7 +540,7 @@
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summa:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F69-WH-92N">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summa:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F69-WH-92N">
                                 <rect key="frame" x="16" y="501" width="110" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="110" id="h8w-C8-Od5"/>
@@ -644,38 +645,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tryck på beloppet för att godkänna skulden." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUQ-oZ-N04">
-                                <rect key="frame" x="36" y="114" width="528" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tryck på beloppet för att godkänna skulden." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUQ-oZ-N04">
+                                <rect key="frame" x="36" y="94" width="528" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grå skuld = Obekräftad skuld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJe-Ue-d7r">
-                                <rect key="frame" x="36" y="218" width="528" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grå skuld = Obekräftad skuld." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJe-Ue-d7r">
+                                <rect key="frame" x="36" y="197" width="528" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blå skuld = Bekräftad skuld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9K-IJ-tW2">
-                                <rect key="frame" x="36" y="259" width="528" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blå skuld = Bekräftad skuld." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9K-IJ-tW2">
+                                <rect key="frame" x="36" y="239" width="528" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blått belopp = Utlånat belopp." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cka-zL-tdq">
-                                <rect key="frame" x="36" y="301" width="528" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blått belopp = Utlånat belopp." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cka-zL-tdq">
+                                <rect key="frame" x="36" y="280" width="528" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rött belopp = Lånat belopp." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cts-VH-knb">
-                                <rect key="frame" x="36" y="342" width="528" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rött belopp = Lånat belopp." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cts-VH-knb">
+                                <rect key="frame" x="36" y="322" width="528" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Svep höger på beloppet för att ta bort en skuld. (Godkänd skuld kan endast tas bort av den som skapat skulden)." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhw-wc-TWn">
-                                <rect key="frame" x="36" y="156" width="528" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Svep höger på beloppet för att ta bort en skuld. (Skulden kan endast tas bort av den som skapat den)." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhw-wc-TWn">
+                                <rect key="frame" x="36" y="135" width="528" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.30196078430000001" green="0.68627450980000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -688,14 +689,14 @@
                             <constraint firstAttribute="trailingMargin" secondItem="aUQ-oZ-N04" secondAttribute="trailing" constant="20" id="G9x-xx-4Hi"/>
                             <constraint firstItem="m9K-IJ-tW2" firstAttribute="top" secondItem="UJe-Ue-d7r" secondAttribute="bottom" constant="21" id="GaW-bt-n6E"/>
                             <constraint firstItem="Lhw-wc-TWn" firstAttribute="top" secondItem="aUQ-oZ-N04" secondAttribute="bottom" constant="21" id="RLl-Bo-P71"/>
-                            <constraint firstItem="UJe-Ue-d7r" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leadingMargin" constant="20" id="aLo-kD-CvH"/>
-                            <constraint firstItem="cts-VH-knb" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leadingMargin" constant="20" id="ati-ki-Phq"/>
-                            <constraint firstItem="Lhw-wc-TWn" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leadingMargin" constant="20" id="h1A-bT-ZEM"/>
-                            <constraint firstItem="m9K-IJ-tW2" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leadingMargin" constant="20" id="krH-qa-Gmg"/>
-                            <constraint firstItem="aUQ-oZ-N04" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leadingMargin" constant="20" id="nCY-dA-9fy"/>
+                            <constraint firstItem="UJe-Ue-d7r" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leading" constant="36" id="aLo-kD-CvH"/>
+                            <constraint firstItem="cts-VH-knb" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leading" constant="36" id="ati-ki-Phq"/>
+                            <constraint firstItem="Lhw-wc-TWn" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leading" constant="36" id="h1A-bT-ZEM"/>
+                            <constraint firstItem="m9K-IJ-tW2" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leading" constant="36" id="krH-qa-Gmg"/>
+                            <constraint firstItem="aUQ-oZ-N04" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leading" constant="36" id="nCY-dA-9fy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Cka-zL-tdq" secondAttribute="trailing" constant="20" id="oyg-w0-UEE"/>
-                            <constraint firstItem="aUQ-oZ-N04" firstAttribute="top" secondItem="Gr2-HI-Tif" secondAttribute="bottom" constant="50" id="sWG-tw-yYc"/>
-                            <constraint firstItem="Cka-zL-tdq" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leadingMargin" constant="20" id="tNo-td-zfz"/>
+                            <constraint firstItem="aUQ-oZ-N04" firstAttribute="top" secondItem="Gr2-HI-Tif" secondAttribute="bottom" constant="30" id="sWG-tw-yYc"/>
+                            <constraint firstItem="Cka-zL-tdq" firstAttribute="leading" secondItem="aDY-LB-HO9" secondAttribute="leading" constant="36" id="tNo-td-zfz"/>
                             <constraint firstItem="UJe-Ue-d7r" firstAttribute="top" secondItem="Lhw-wc-TWn" secondAttribute="bottom" constant="21" id="tzq-yR-s38"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cts-VH-knb" secondAttribute="trailing" constant="20" id="uxx-GW-4Gv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Lhw-wc-TWn" secondAttribute="trailing" constant="20" id="vIO-7t-z9v"/>

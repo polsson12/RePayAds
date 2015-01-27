@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "Reachability.h"
 
 
 @interface infoOneViewController : UIViewController <UIAlertViewDelegate>

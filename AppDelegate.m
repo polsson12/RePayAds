@@ -103,7 +103,7 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Store the deviceToken in the current installation and save it to Parse.
-    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken");
+    //NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken");
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     currentInstallation.channels = @[ @"global" ];
@@ -117,7 +117,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"Tar emot notifikation");
+    //NSLog(@"Tar emot notifikation");
     //clearing the badge when the app is active and the user receives an notification
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     if (currentInstallation.badge != 0) {

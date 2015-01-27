@@ -400,7 +400,7 @@
     if ([alertView.title isEqual: @"Bekräfta skulden"]) {
         if (buttonIndex == 0) {
         }else if (buttonIndex == 1){
-            NSLog(@"Klickar på ja knappen");
+           // NSLog(@"Klickar på ja knappen");
             [self sendDebtToDataBase];
         }
     }
@@ -477,9 +477,9 @@
                                         block:^(NSString *success, NSError *error) {
                                             if (!error) {
                                                 // Push sent successfully
-                                                NSLog(@"Lyckades skicka push från client till server: %@ ",success);
+                                                //NSLog(@"Lyckades skicka push från client till server: %@ ",success);
                                             }else{
-                                                NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
+                                                //NSLog(@"Lyckades INTE skicka push från client till server: %@", [error localizedDescription]);
                                             }
                                         }];
             

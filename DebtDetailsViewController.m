@@ -52,7 +52,6 @@ NSIndexPath *deleteIndex;
     [PFPush sendPushMessageToQueryInBackground:pushQuery
                                    withMessage:@"Hello World!"];*/
     selectedRow = -1;
-    NSLog(@"Inne i Debt Details View Controller");
     if (_debts == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ooops"
                                                         message:@"Något gick fel"
@@ -79,7 +78,7 @@ NSIndexPath *deleteIndex;
         //NSLog( NSStringFromClass( [[_debts objectAtIndex:0]class] ));
         //Find out the name to put as text in the cell
         //If the debt objects toFbId string is not equal to the current user fbId we know that the text in the cell should be toName
-        NSLog(@"Värde på index: %ld",(long)index);
+        //NSLog(@"Värde på index: %ld",(long)index);
 
         if (![[[[_debts objectAtIndex:index] objectAtIndex:0] toFbId] isEqualToString:[[PFUser currentUser] objectForKey:@"fbId"]]) {
             name = [[[_debts objectAtIndex:index] objectAtIndex:0] toName];
@@ -104,7 +103,6 @@ NSIndexPath *deleteIndex;
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    NSLog(@"Kommer hit...2");
     return [[_debts objectAtIndex:0] count] + [[_debts objectAtIndex:1] count];
 }
 
@@ -127,7 +125,7 @@ NSIndexPath *deleteIndex;
     
     if(tableView == _debtDetailsTableView){
         if (indexPath.row < [[_debts objectAtIndex:0] count]) {
-            NSLog(@"indexPath.row : %ld",(long)indexPath.row);
+            //NSLog(@"indexPath.row : %ld",(long)indexPath.row);
             NSDate *d = [[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] createdAt];
             //date.text = [formatter stringFromDate:d];
             //message.text = [[[_debts objectAtIndex:0] objectAtIndex:indexPath.row] message];
@@ -158,7 +156,7 @@ NSIndexPath *deleteIndex;
             }
             
         }else{
-            NSLog(@"indexPath.row : %ld",(long)indexPath.row);
+            //NSLog(@"indexPath.row : %ld",(long)indexPath.row);
             NSDate *d = [[[_debts objectAtIndex:1] objectAtIndex:(indexPath.row-[[_debts objectAtIndex:0] count])] createdAt];
            // date.text = [formatter stringFromDate:d];
             cell.textLabel.text = [formatter stringFromDate:d];
@@ -195,9 +193,7 @@ NSIndexPath *deleteIndex;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    for (int i = 0; i < [[_debts objectAtIndex:1] count]; i++) {
-        NSLog(@"%@", [[[_debts objectAtIndex:1] objectAtIndex:i] amount]);
-    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //NSLog(@"TRYCKER PÅ CELL: %d", indexPath.row);
     NSInteger index = indexPath.row - [[_debts objectAtIndex:0] count];
@@ -244,7 +240,6 @@ NSIndexPath *deleteIndex;
 }
 
 - (void) deleteDebt {
-    NSLog(@"ska a bort skuld...");
     _activityIndicator.hidden = NO;
     [_activityIndicator startAnimating];
     _debtDetailsTableView.userInteractionEnabled = NO;
@@ -300,13 +295,13 @@ NSIndexPath *deleteIndex;
     
     for (int i = 0; i < [[_debts objectAtIndex:0] count]; i++) {
         if ([[[_debts objectAtIndex:0] objectAtIndex:i] approved]) {
-            NSLog(@"Amount %@", [[[_debts objectAtIndex:0] objectAtIndex:i] amount] );
+           // NSLog(@"Amount %@", [[[_debts objectAtIndex:0] objectAtIndex:i] amount] );
             amount = [NSNumber numberWithFloat:([[[[_debts objectAtIndex:0] objectAtIndex:i] amount] floatValue]  + [amount floatValue])];
         }
     }
 
     for (int i = 0; i < [[_debts objectAtIndex:1] count]; i++) {
-        NSLog(@"Amount %@", [[[_debts objectAtIndex:1] objectAtIndex:i] amount]);
+        //NSLog(@"Amount %@", [[[_debts objectAtIndex:1] objectAtIndex:i] amount]);
         if ([[[_debts objectAtIndex:1] objectAtIndex:i] approved]) {
             amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[_debts objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
         }

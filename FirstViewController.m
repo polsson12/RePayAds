@@ -157,7 +157,7 @@
 #pragma mark ads functions
 
 - (void) createAndLoadInterstitial {
-    NSLog(@"createAndLoadInterstitial....");
+    //NSLog(@"createAndLoadInterstitial....");
     self.interstitial = [[GADInterstitial alloc] init];
     GADRequest *request = [GADRequest request];
     //request.testDevices = @[ GAD_SIMULATOR_ID, @"7ebd577f503ea3da2610888aeb1bb0ac" ];
@@ -169,18 +169,18 @@
 
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
-    NSLog(@"did receive ad");
+    //NSLog(@"did receive ad");
     if ([ad isReady]){
         [ad presentFromRootViewController:self.navigationController.topViewController];
     }
 }
 
 - (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
-    NSLog(@"interstitialDidDismissScreen");
+   // NSLog(@"interstitialDidDismissScreen");
     
 }
 - (void) interstitialWillLeaveApplication:(GADInterstitial *)ad {
-    NSLog(@"interstitialWillLeaveApplication");
+    //NSLog(@"interstitialWillLeaveApplication");
 
 }
 

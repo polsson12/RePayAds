@@ -74,7 +74,7 @@
         
         
         if([[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] count] == 0){
-            NSLog(@"Kommer hit.........");
+            //NSLog(@"Kommer hit.........");
             index = 1;
         }
         //Find out the name to put as text in the cell
@@ -95,14 +95,14 @@
         
         
         for (int i = 0; i < [[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] count]; i++) {
-            NSLog(@"Amount %@", [[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] amount]);
+            //NSLog(@"Amount %@", [[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] amount]);
             if ([[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] approved]) {
                 amount = [NSNumber numberWithFloat:([[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:0] objectAtIndex:i] amount] floatValue]  + [amount floatValue])];
             }
         }
         
         for (int i = 0; i < [[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] count]; i++) {
-            NSLog(@"Amount %@", [[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] amount] );
+            //NSLog(@"Amount %@", [[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] amount] );
             if ([[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] approved]) {
                 amount = [NSNumber numberWithFloat:([amount floatValue]-[[[[[_debtsToPerson objectAtIndex:indexPath.row] objectAtIndex:1] objectAtIndex:i] amount] floatValue]) ];
             }else {
@@ -157,14 +157,14 @@
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[toMe,fromMe]];
     [query orderByDescending:@"createdAt"];
     
-    NSLog(@"User fbId: %@",[[PFUser currentUser] objectForKey:@"fbId"]);
+    //NSLog(@"User fbId: %@",[[PFUser currentUser] objectForKey:@"fbId"]);
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;
-            NSLog(@"Successfully retrieved %lu objects.", (unsigned long)objects.count);
+           // NSLog(@"Successfully retrieved %lu objects.", (unsigned long)objects.count);
 
             _debts = [NSMutableArray arrayWithCapacity:objects.count];
             
@@ -210,7 +210,7 @@
         } else {
             //TODO: No internet connection?
             // Log details of the failure
-            NSLog(@"Error123: %@ %@", error, [error userInfo]);
+           // NSLog(@"Error123: %@ %@", error, [error userInfo]);
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;
             [self.navigationController popViewControllerAnimated:YES];
@@ -246,7 +246,7 @@
         [arr addObject:[NSMutableArray arrayWithArray:[_debts filteredArrayUsingPredicate:predicate2]]];
         //NSLog(@"Storlekten på arr: %lu", (unsigned long)[arr count]);
         if ([[arr objectAtIndex:0] count] == 0) {
-            NSLog(@"Index 0 har storleken 0");
+            //NSLog(@"Index 0 har storleken 0");
         }
         
         [_debtsToPerson addObject:arr];
@@ -275,7 +275,7 @@
     if (!([[PFUser currentUser] objectForKey:@"fbId"] || [[PFUser currentUser] objectForKey:@"fbName"])) {
         [PFUser logOut];
         [self.navigationController popToRootViewControllerAnimated:YES];
-        NSLog(@"Någonting hände...Loggar ut användaren..");
+       // NSLog(@"Någonting hände...Loggar ut användaren..");
     }
 }
 
