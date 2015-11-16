@@ -62,7 +62,6 @@
     
    // NSLog(@"Trying to log in...");
     
-    //TODO: Fix the correct permissions...
     //NSArray *permissionsArray = @[@"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
     NSArray *permissionsArray = @[@"public_profile", @"user_friends"];
     

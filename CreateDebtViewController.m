@@ -128,14 +128,15 @@
 /* Get all Friends of the users Facebook ID's
  */
 - (void) getAllFbFriendsOfUserUsingApp {
+    
+   
 
-    [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+    [FBRequestConnection startWithGraphPath:@"me/friends?limit=5000" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (!error) {
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;
             // result will contain an array with your user's friends in the "data" key
             NSArray *friendObjects = [result objectForKey:@"data"];
-
             _friendInfo = [NSMutableArray arrayWithCapacity:friendObjects.count];
 
             // Create a list of friends' Facebook IDs
@@ -147,18 +148,21 @@
                 [_friendInfo addObject:person];
             }
 
-            //NSLog(@"Antalet fb vänner: %lu", (unsigned long)[_friendInfo count]);
-            /*for (size_t i = 0; i < [_friendInfo count]; i++) {
+            /*NSLog(@"Antalet fb vänner: %lu", (unsigned long)[_friendInfo count]);
+            for (size_t i = 0; i < [_friendInfo count]; i++) {
                 Person *p = [_friendInfo objectAtIndex:i];
                 NSLog(@"Namn: %@   fbId: %@", p.name, p.fbId);
             
             }*/
+             
             _searchResults = _friendInfo;
             [_searchResultTableView reloadData];
         }
         else{ //handle error
             [_activityIndicator stopAnimating];
             _activityIndicator.hidden = YES;
+            NSLog(@"Error...user events: %@", result);
+
             UIAlertView *errorView = [[UIAlertView alloc]
                                          initWithTitle:@"Fel inträffade" message:@"Ett fel inträffade, kontrollera din internet anslutning eller försök igen senare." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             //NSLog(@"error code: %ld \n error msg: %@", (long)[error code], [error localizedDescription]);
